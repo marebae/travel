@@ -6,55 +6,21 @@
     <meta name="viewport" content="width-device-width", initial-scale="1.0">
     <title>Travel</title>
 	<style>
-		body {
-            background: #0a0a23;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        #header {
-            background-color: #f8f8f8;
-            padding: 10px 0;
-            width: 100%;
-            position: fixed;
-            top: 0;
-        }
-        .container {
-            width: 90%;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        nav ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            display: flex;
-        }
-        nav ul li {
-            margin-right: 20px;
-        }
-        nav ul li a {
-            text-decoration: none;
-            color: #333;
-        }
-        .dropdown {
+        #profile-dropdown {
             display: inline-block;
             position: relative;
         }
-        button {
+        #profile-dropdown button {
             border: none;
             border-radius: 5px;
             padding: 15px 30px;
             font-size: 18px;
             cursor: pointer;
         }
-        button:hover {
+        #profile-dropdown button:hover {
             background-color: #ddd;
         }
-        .dropdown-options {
+        #profile-dropdown .dropdown-options {
             display: none;
             position: absolute;
             overflow: auto;
@@ -62,21 +28,21 @@
             border-radius: 5px;
             box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.4);
         }
-        .dropdown:hover .dropdown-options {
+        #profile-dropdown:hover .dropdown-options {
             display: block;
         }
-        .dropdown-options a {
+        #profile-dropdown .dropdown-options a {
             display: block;
             color: #000000;
             padding: 20px 40px;
             text-decoration: none;
         }
-        .dropdown-options a:hover {
+        #profile-dropdown .dropdown-options a:hover {
             color: #0a0a23;
             background-color: #ddd;
             border-radius: 5px;
         }
-	</style>
+    </style>
 	
 </head>
 <body>
