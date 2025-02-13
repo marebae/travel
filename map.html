@@ -5,6 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Destinations | Mystery Trip</title>
+    
+    <!-- Leaflet.js CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    
     <style>
         /* General Styling */
         body {
@@ -102,9 +106,9 @@
             margin-top: 20px;
         }
 
-        .map-container img {
+        #map {
             width: 80%;
-            max-width: 600px;
+            height: 500px;
             border-radius: 10px;
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
         }
@@ -151,8 +155,36 @@
 
     <!-- Map Section -->
     <div class="map-container">
-        <img src="map.jpg" alt="Interactive Travel Map">
+        <div id="map"></div>
     </div>
+
+    <!-- Leaflet.js -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <script>
+        // Initialize the map and set view to a default location
+        var map = L.map('map').setView([37.7749, -122.4194], 5); // San Francisco, Zoom level 5
+
+        // Add OpenStreetMap Tile Layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Example Destination Locations
+        var locations = [
+            { coords: [40.7128, -74.0060], name: "New York City" },
+            { coords: [34.0522, -118.2437], name: "Los Angeles" },
+            { coords: [41.8781, -87.6298], name: "Chicago" },
+            { coords: [25.7617, -80.1918], name: "Miami" }
+        ];
+
+        // Loop through locations and add markers
+        locations.forEach(loc => {
+            L.marker(loc.coords).addTo(map)
+             .bindPopup(`<b>${loc.name}</b>`)
+             .openPopup();
+        });
+    </script>
 
     <!-- Footer -->
     <div class="footer">
