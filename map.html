@@ -186,14 +186,19 @@
         <button class="filter-button">&#9881; Filters</button>
     </div>
 
-    <div style="display: flex; justify-content: flex-end; width: 80%; max-width: 800px; margin: 0 auto 10px;">
+    
+    <!-- Map Section (Moved to Center) -->
+   <!-- Map Section -->
+<div class="map-container" style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+    
+    <!-- Budget Input Box (Just Above the Map, Right-Aligned) -->
+    <div style="display: flex; justify-content: flex-end; width: 80%; max-width: 800px; margin-bottom: 10px;">
         <input type="text" class="budget-input" placeholder="Enter Budget"
                style="background: white; border: 1px solid #ccc; padding: 8px; font-size: 1em; border-radius: 5px; width: 150px;">
     </div>
-    <!-- Map Section (Moved to Center) -->
-    <div class="map-container">
-        <div id="map"></div>
-    </div>
+
+    <div id="map"></div>
+</div>
 
     <!-- Destinations Content Section -->
     <div class="destinations-content">
