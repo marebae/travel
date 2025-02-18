@@ -102,7 +102,7 @@
         /* Map Section */
         .map-container {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
             margin: 20px auto;
             width: 100%;
@@ -115,45 +115,50 @@
             border-radius: 10px;
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
         }
-        /* Filter Button */
-        .filter-container {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background: white;
-            padding: 10px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+
+        /* Filters Button */
+        .filters-container {
+            position: relative;
+            margin: 10px;
         }
 
-        .filter-button {
-            cursor: pointer;
+        .filters-button {
             background: #0077b6;
             color: white;
-            padding: 10px;
+            padding: 10px 20px;
             border: none;
-            border-radius: 5px;
-        }
-
-        .filter-options {
-            display: none;
-            margin-top: 10px;
-        }
-
-        .filter-options label {
-            display: block;
             cursor: pointer;
+            font-size: 1em;
+            border-radius: 5px;
+            transition: 0.3s;
         }
 
-        /* Footer */
-        .footer {
-            text-align: center;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.7);
-            position: fixed;
-            width: 100%;
-            bottom: 0;
-            color: white;
+        .filters-button:hover {
+            background: #005f8a;
+        }
+
+        .filters-menu {
+            display: none;
+            position: absolute;
+            background: white;
+            color: black;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            padding: 10px;
+            width: 200px;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .filters-menu label {
+            display: block;
+            padding: 5px;
+            font-size: 1em;
+        }
+
+        .filters-menu input {
+            margin-right: 10px;
         }
     </style>
 </head>
@@ -173,14 +178,24 @@
         </div>
     </div>
 
-        <!-- Hero Section -->
+    <!-- Hero Section -->
     <div class="hero">
         <h1>Explore Our Destinations</h1>
         <p>Discover exciting locations and hidden gems around the world!</p>
     </div>
 
-    <!-- Map Section (Moved to Center) -->
+    <!-- Map Section -->
     <div class="map-container">
+        <!-- Filters Button -->
+        <div class="filters-container">
+            <button class="filters-button" onclick="toggleFilters()">Filters</button>
+            <div class="filters-menu" id="filtersMenu">
+                <label><input type="checkbox"> Common Destinations</label>
+                <label><input type="checkbox"> Boat Travel</label>
+                <label><input type="checkbox"> Airports</label>
+            </div>
+        </div>
+
         <div id="map"></div>
     </div>
 
@@ -213,9 +228,14 @@
         // Loop through locations and add markers
         locations.forEach(loc => {
             L.marker(loc.coords).addTo(map)
-             .bindPopup(`<b>${loc.name}</b>`)
-             .openPopup();
+             .bindPopup(`<b>${loc.name}</b>`);
         });
+
+        // Toggle Filters Dropdown
+        function toggleFilters() {
+            var menu = document.getElementById('filtersMenu');
+            menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+        }
     </script>
 
     <!-- Footer -->
