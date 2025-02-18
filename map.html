@@ -185,7 +185,7 @@
         // Loop through locations and add markers
         locations.forEach(loc => {
             L.marker(loc.coords).addTo(map)
-             .bindPopup(<b>${loc.name}</b>)
+             .bindPopup(`<b>${loc.name}</b>`)
              .openPopup();
         });
     </script>
@@ -197,5 +197,3 @@
 
 </body>
 </html>
-
-
