@@ -119,7 +119,8 @@
         /* Filters Button */
         .filters-container {
             position: relative;
-            margin: 10px;
+            text-align: center;
+            margin-bottom: 15px;
         }
 
         .filters-button {
@@ -130,7 +131,8 @@
             cursor: pointer;
             font-size: 1em;
             border-radius: 5px;
-            transition: 0.3s;
+            position: relative;
+            z-index: 1000;
         }
 
         .filters-button:hover {
@@ -149,6 +151,7 @@
             top: 40px;
             left: 50%;
             transform: translateX(-50%);
+            z-index: 1001;
         }
 
         .filters-menu label {
@@ -200,48 +203,4 @@
     </div>
 
     <!-- Destinations Content Section -->
-    <div class="destinations-content">
-        <h2>Find Your Next Adventure</h2>
-        <p>Check out our interactive map above to explore amazing travel spots and plan your next journey!</p>
-    </div>
-
-    <!-- Leaflet.js -->
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-
-    <script>
-        // Initialize the map and set view to a default location
-        var map = L.map('map').setView([37.7749, -122.4194], 5); // San Francisco, Zoom level 5
-
-        // Add OpenStreetMap Tile Layer
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
-        }).addTo(map);
-
-        // Example Destination Locations
-        var locations = [
-            { coords: [40.7128, -74.0060], name: "New York City" },
-            { coords: [34.0522, -118.2437], name: "Los Angeles" },
-            { coords: [41.8781, -87.6298], name: "Chicago" },
-            { coords: [25.7617, -80.1918], name: "Miami" }
-        ];
-
-        // Loop through locations and add markers
-        locations.forEach(loc => {
-            L.marker(loc.coords).addTo(map)
-             .bindPopup(`<b>${loc.name}</b>`);
-        });
-
-        // Toggle Filters Dropdown
-        function toggleFilters() {
-            var menu = document.getElementById('filtersMenu');
-            menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
-        }
-    </script>
-
-    <!-- Footer -->
-    <div class="footer">
-        <p>&copy; 2025 Mystery Trip. All Rights Reserved.</p>
-    </div>
-
-</body>
-</html>
+   
