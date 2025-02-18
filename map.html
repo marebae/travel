@@ -85,4 +85,117 @@
         /* Destinations Content */
         .destinations-content {
             max-width: 800px;
-            background: rgba(255, 
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            padding: 30px;
+            margin: 40px auto;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .destinations-content h2 {
+            color: #0077b6;
+            font-size: 2em;
+        }
+
+        /* Map Section */
+        .map-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px auto;
+            width: 100%;
+        }
+
+        #map {
+            width: 80%;
+            height: 500px;
+            max-width: 800px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <div id="header">
+        <div class="container">
+            <nav>
+                <ul>
+                    <li><a href="home">Home</a></li>
+                    <li><a href="about">About</a></li>
+                    <li><a href="map">Destinations</a></li>
+                    <li><a href="contact">Contact Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+        <!-- Hero Section -->
+    <div class="hero">
+        <h1>Explore Our Destinations</h1>
+        <p>Discover exciting locations and hidden gems around the world!</p>
+    </div>
+
+    <!-- Map Section (Moved to Center) -->
+    <div class="map-container">
+        <div id="map"></div>
+    </div>
+
+    <!-- Destinations Content Section -->
+    <div class="destinations-content">
+        <h2>Find Your Next Adventure</h2>
+        <p>Check out our interactive map above to explore amazing travel spots and plan your next journey!</p>
+    </div>
+
+    <!-- Leaflet.js -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <script>
+        // Initialize the map and set view to a default location
+        var map = L.map('map').setView([37.7749, -122.4194], 5); // San Francisco, Zoom level 5
+
+        // Add OpenStreetMap Tile Layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Example Destination Locations
+        var locations = [
+            { coords: [40.7128, -74.0060], name: "New York City" },
+            { coords: [34.0522, -118.2437], name: "Los Angeles" },
+            { coords: [41.8781, -87.6298], name: "Chicago" },
+            { coords: [25.7617, -80.1918], name: "Miami" }
+        ];
+
+        // Loop through locations and add markers
+        locations.forEach(loc => {
+            L.marker(loc.coords).addTo(map)
+             .bindPopup(<b>${loc.name}</b>)
+             .openPopup();
+        });
+    </script>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2025 Mystery Trip. All Rights Reserved.</p>
+    </div>
+
+</body>
+</html>
+
+Given this html code for a website, design a non-working button that displays Filters on the map, and lets the user toggle 'Common Destinations, Boat Travel, or Airports'
