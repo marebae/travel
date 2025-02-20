@@ -132,18 +132,11 @@
 
         /* Hero Section */
         .hero {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.4);
-            margin-left: 250px; /* Adjust for sidebar width */
-            width: calc(100% - 250px); /* Adjust for sidebar width */
-            transition: margin-left 0.3s, width 0.3s;
-            position: relative;
-            z-index: 2; /* Make sure the hero section is above the background */
+            position: absolute; /* Makes the hero section stay stationary */
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2; /* Ensures it's above other content */
         }
 
         .cta-button {
@@ -319,14 +312,6 @@
         // Sidebar toggle function
         function toggleSidebar() {
             document.getElementById("sidebar").classList.toggle("active");
-            const hero = document.querySelector(".hero");
-            if (hero.style.marginLeft === "250px") {
-                hero.style.marginLeft = "0";
-                hero.style.width = "100%";
-            } else {
-                hero.style.marginLeft = "250px";
-                hero.style.width = "calc(100% - 250px)";
-            }
         }
     </script>
 </body>
