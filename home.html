@@ -153,6 +153,22 @@
             background: #ffc107;
         }
 
+        .previous-button {
+            background: #333;
+            color: #ffdd57;
+            font-size: 1.2em;
+            padding: 12px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            margin-top: 20px;
+            display: inline-block;
+            transition: 0.3s;
+        }
+
+        .previous-button:hover {
+            background: #555;
+        }
+
         /* Sidebar Styling */
         #sidebar {
             width: 250px;
@@ -214,9 +230,7 @@
             <nav>
                 <ul>
                     <li><a href="home" data-key="nav-home">Home</a></li>
-                    <li><a href="about" data-key="nav-about">About</a></li>
                     <li><a href="map" data-key="nav-destinations">Destinations</a></li>
-                    <li><a href="contact" data-key="nav-contact">Contact Us</a></li>
                     <li><a href="community" data-key="nav-community">Community</a></li>
                 </ul>
             </nav>
@@ -248,8 +262,6 @@
             <li><a href="friends" data-key="friends">Friends</a></li>
             <li><a href="travel-guide" data-key="travel-guide">Travel Guide</a></li>
             <li><a href="translation-guide" data-key="translation-guide">Translation Guide</a></li>
-            <li><a href="about" data-key="nav-about">About</a></li>
-            <li><a href="contact" data-key="nav-contact">Contact Us</a></li>
         </ul>
     </div>
 
@@ -263,19 +275,19 @@
             Adventure is out there! Let us take you on a journey to breathtaking destinations around the world.
         </p>
         <a href="map.html" class="cta-button" data-key="hero-button">Plan Your Trip</a>
+        <a href="previousd.html" class="previous-button" data-key="previous-button">Previous Destinations</a>
     </div>
 
     <script>
         const translations = {
             en: {
                 "nav-home": "Home",
-                "nav-about": "About",
                 "nav-destinations": "Destinations",
-                "nav-contact": "Contact Us",
                 "nav-community": "Community",
                 "hero-title": "Explore the World",
                 "hero-text": "Adventure is out there! Let us take you on a journey to breathtaking destinations around the world.",
                 "hero-button": "Plan Your Trip",
+                "previous-button": "Previous Destinations",
                 "profile": "Profile",
                 "sign-in": "Sign In",
                 "register": "Register",
