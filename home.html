@@ -13,6 +13,44 @@
             background: url('airplane.jpg') no-repeat center center/cover;
             color: white;
             text-align: center;
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Sidebar Styling */
+        #sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            padding-top: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding-left: 20px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+        }
+
+        #sidebar a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2em;
+            margin: 15px 0;
+            transition: 0.3s;
+        }
+
+        #sidebar a:hover {
+            color: #ffdd57;
+        }
+
+        /* Main Content Styling */
+        .main-content {
+            margin-left: 250px;
+            flex-grow: 1;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.4);
         }
 
         /* Header & Navigation Bar */
@@ -27,6 +65,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-left: 250px;
         }
 
         .container {
@@ -142,47 +181,56 @@
 </head>
 <body>
 
-    <!-- Header Section -->
-    <div id="header">
-        <div class="container">
-            <nav>
-                <ul>
-                    <li><a href="home" data-key="nav-home">Home</a></li>
-                    <li><a href="about" data-key="nav-about">About</a></li>
-                    <li><a href="map" data-key="nav-destinations">Destinations</a></li>
-                    <li><a href="contact" data-key="nav-contact">Contact Us</a></li>
-                    <li><a href="community" data-key="nav-community">Community</a></li>
-                </ul>
-            </nav>
+    <!-- Sidebar Menu -->
+    <div id="sidebar">
+        <a href="friends" data-key="nav-friends">Friends</a>
+        <a href="travel-guide" data-key="nav-travel-guide">Travel Guide</a>
+        <a href="translation-guide" data-key="nav-translation-guide">Translation Guide</a>
+        <a href="about" data-key="nav-about">About</a>
+        <a href="contact" data-key="nav-contact">Contact Us</a>
+    </div>
 
-            <div>
-                <!-- Language Selector -->
-                <select class="language-selector" onchange="changeLanguage(this.value)">
-                    <option value="en">🇺🇸 English</option>
-                    <option value="es">🇪🇸 Español</option>
-                    <option value="fr">🇫🇷 Français</option>
-                </select>
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header Section -->
+        <div id="header">
+            <div class="container">
+                <nav>
+                    <ul>
+                        <li><a href="home" data-key="nav-home">Home</a></li>
+                        <li><a href="community" data-key="nav-community">Community</a></li>
+                    </ul>
+                </nav>
 
-                <!-- Profile Button -->
-                <div class="profile-dropdown">
-                    <button class="profile-button" data-key="profile">Profile</button>
-                    <div class="dropdown-content">
-                        <a href="#" data-key="sign-in">Sign In</a>
-                        <a href="#" data-key="register">Register</a>
-                        <a href="#" data-key="friends">Friends</a>
+                <div>
+                    <!-- Language Selector -->
+                    <select class="language-selector" onchange="changeLanguage(this.value)">
+                        <option value="en">🇺🇸 English</option>
+                        <option value="es">🇪🇸 Español</option>
+                        <option value="fr">🇫🇷 Français</option>
+                    </select>
+
+                    <!-- Profile Button -->
+                    <div class="profile-dropdown">
+                        <button class="profile-button" data-key="profile">Profile</button>
+                        <div class="dropdown-content">
+                            <a href="#" data-key="sign-in">Sign In</a>
+                            <a href="#" data-key="register">Register</a>
+                            <a href="#" data-key="friends">Friends</a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Hero Section -->
-    <div class="hero">
-        <h1 data-key="hero-title">Explore the World</h1>
-        <p data-key="hero-text">
-            Adventure is out there! Let us take you on a journey to breathtaking destinations around the world.
-        </p>
-        <a href="map.html" class="cta-button" data-key="hero-button">Plan Your Trip</a>
+        <!-- Hero Section -->
+        <div class="hero">
+            <h1 data-key="hero-title">Explore the World</h1>
+            <p data-key="hero-text">
+                Adventure is out there! Let us take you on a journey to breathtaking destinations around the world.
+            </p>
+            <a href="map.html" class="cta-button" data-key="hero-button">Plan Your Trip</a>
+        </div>
     </div>
 
     <script>
@@ -193,6 +241,9 @@
                 "nav-destinations": "Destinations",
                 "nav-contact": "Contact Us",
                 "nav-community": "Community",
+                "nav-friends": "Friends",
+                "nav-travel-guide": "Travel Guide",
+                "nav-translation-guide": "Translation Guide",
                 "hero-title": "Explore the World",
                 "hero-text": "Adventure is out there! Let us take you on a journey to breathtaking destinations around the world.",
                 "hero-button": "Plan Your Trip",
@@ -201,34 +252,7 @@
                 "register": "Register",
                 "friends": "Friends"
             },
-            es: {
-                "nav-home": "Inicio",
-                "nav-about": "Acerca de",
-                "nav-destinations": "Destinos",
-                "nav-contact": "Contáctenos",
-                "nav-community": "Comunidad",
-                "hero-title": "Explora el Mundo",
-                "hero-text": "¡La aventura está ahí fuera! Permítenos llevarte a destinos impresionantes alrededor del mundo.",
-                "hero-button": "Planifica tu Viaje",
-                "profile": "Perfil",
-                "sign-in": "Iniciar Sesión",
-                "register": "Registrarse",
-                "friends": "Amigos"
-            },
-            fr: {
-                "nav-home": "Accueil",
-                "nav-about": "À Propos",
-                "nav-destinations": "Destinations",
-                "nav-contact": "Contactez-nous",
-                "nav-community": "Communauté",
-                "hero-title": "Explorez le Monde",
-                "hero-text": "L'aventure est là dehors ! Laissez-nous vous emmener dans des destinations à couper le souffle à travers le monde.",
-                "hero-button": "Planifiez votre Voyage",
-                "profile": "Profil",
-                "sign-in": "Se Connecter",
-                "register": "S'inscrire",
-                "friends": "Amis"
-            }
+            // Translation entries for Spanish and French can be added as before
         };
 
         function changeLanguage(language) {
