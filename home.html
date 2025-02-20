@@ -138,6 +138,37 @@
         .cta-button:hover {
             background: #ffc107;
         }
+ /* Gallery Section */
+        .gallery-container {
+            text-align: center;
+            padding: 40px;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            max-width: 1000px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .gallery img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .gallery img:hover {
+            transform: scale(1.05);
+        }
+        
+
+        
     </style>
 </head>
 <body>
@@ -182,6 +213,19 @@
         </p>
         <a href="map.html" class="cta-button" data-key="hero-button">Plan Your Trip</a>
     </div>
+
+    <!-- Gallery Section -->
+    <div class="gallery-container">
+        <h2>Photo Gallery</h2>
+        <div class="gallery">
+            <img src="image1.jpg" alt="Gallery Image 1">
+            <img src="image2.jpg" alt="Gallery Image 2">
+            <img src="image3.jpg" alt="Gallery Image 3">
+            <img src="image4.jpg" alt="Gallery Image 4">
+            <img src="image5.jpg" alt="Gallery Image 5">
+        </div>
+    </div>
+
 
     <script>
     const translations = {
