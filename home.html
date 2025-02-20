@@ -184,54 +184,68 @@
     </div>
 
     <script>
-        const translations = {
-            en: {
-                "nav-home": "Home",
-                "nav-about": "About",
-                "nav-destinations": "Destinations",
-                "nav-contact": "Contact Us",
-                "hero-title": "Explore the World",
-                "hero-text": "Adventure is out there! Let us take you on a journey to breathtaking destinations around the world.",
-                "hero-button": "Plan Your Trip",
-                "profile": "Profile",
-                "sign-in": "Sign In",
-                "register": "Register"
-            },
-            es: {
-                "nav-home": "Inicio",
-                "nav-about": "Acerca de",
-                "nav-destinations": "Destinos",
-                "nav-contact": "Contáctenos",
-                "hero-title": "Explora el Mundo",
-                "hero-text": "¡La aventura está ahí fuera! Permítenos llevarte a destinos impresionantes alrededor del mundo.",
-                "hero-button": "Planifica tu Viaje",
-                "profile": "Perfil",
-                "sign-in": "Iniciar Sesión",
-                "register": "Registrarse"
-            },
-            fr: {
-                "nav-home": "Accueil",
-                "nav-about": "À Propos",
-                "nav-destinations": "Destinations",
-                "nav-contact": "Contactez-nous",
-                "hero-title": "Explorez le Monde",
-                "hero-text": "L'aventure est là dehors ! Laissez-nous vous emmener dans des destinations à couper le souffle à travers le monde.",
-                "hero-button": "Planifiez votre Voyage",
-                "profile": "Profil",
-                "sign-in": "Se Connecter",
-                "register": "S'inscrire"
-            }
-        };
-
-        function changeLanguage(language) {
-            document.querySelectorAll("[data-key]").forEach(element => {
-                const key = element.getAttribute("data-key");
-                if (translations[language][key]) {
-                    element.innerText = translations[language][key];
-                }
-            });
+    const translations = {
+        en: {
+            "nav-home": "Home",
+            "nav-about": "About",
+            "nav-destinations": "Destinations",
+            "nav-contact": "Contact Us",
+            "hero-title": "Explore the World",
+            "hero-text": "Adventure is out there! Let us take you on a journey to breathtaking destinations around the world.",
+            "hero-button": "Plan Your Trip",
+            "profile": "Profile",
+            "sign-in": "Sign In",
+            "register": "Register"
+        },
+        es: {
+            "nav-home": "Inicio",
+            "nav-about": "Acerca de",
+            "nav-destinations": "Destinos",
+            "nav-contact": "Contáctenos",
+            "hero-title": "Explora el Mundo",
+            "hero-text": "¡La aventura está ahí fuera! Permítenos llevarte a destinos impresionantes alrededor del mundo.",
+            "hero-button": "Planifica tu Viaje",
+            "profile": "Perfil",
+            "sign-in": "Iniciar Sesión",
+            "register": "Registrarse"
+        },
+        fr: {
+            "nav-home": "Accueil",
+            "nav-about": "À Propos",
+            "nav-destinations": "Destinations",
+            "nav-contact": "Contactez-nous",
+            "hero-title": "Explorez le Monde",
+            "hero-text": "L'aventure est là dehors ! Laissez-nous vous emmener dans des destinations à couper le souffle à travers le monde.",
+            "hero-button": "Planifiez votre Voyage",
+            "profile": "Profil",
+            "sign-in": "Se Connecter",
+            "register": "S'inscrire"
         }
-    </script>
+    };
+
+    function changeLanguage(language) {
+        localStorage.setItem("selectedLanguage", language); // Save to localStorage
+        applyTranslations(language);
+    }
+
+    function applyTranslations(language) {
+        document.querySelectorAll("[data-key]").forEach(element => {
+            const key = element.getAttribute("data-key");
+            if (translations[language] && translations[language][key]) {
+                element.innerText = translations[language][key];
+            }
+        });
+
+        // Set the language dropdown to the correct option
+        document.querySelector(".language-selector").value = language;
+    }
+
+    // On page load, apply the saved language
+    document.addEventListener("DOMContentLoaded", () => {
+        const savedLanguage = localStorage.getItem("selectedLanguage") || "en";
+        applyTranslations(savedLanguage);
+    });
+</script>
 
 </body>
 </html>
