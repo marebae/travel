@@ -14,43 +14,8 @@
             color: white;
             text-align: center;
             display: flex;
-            height: 100vh;
-        }
-
-        /* Sidebar Styling */
-        #sidebar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 250px;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            padding-top: 50px;
-            display: flex;
             flex-direction: column;
-            align-items: flex-start;
-            padding-left: 20px;
-            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
-        }
-
-        #sidebar a {
-            color: white;
-            text-decoration: none;
-            font-size: 1.2em;
-            margin: 15px 0;
-            transition: 0.3s;
-        }
-
-        #sidebar a:hover {
-            color: #ffdd57;
-        }
-
-        /* Main Content Styling */
-        .main-content {
-            margin-left: 250px;
-            flex-grow: 1;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.4);
+            height: 100vh;
         }
 
         /* Header & Navigation Bar */
@@ -65,7 +30,6 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-left: 250px;
         }
 
         .container {
@@ -162,6 +126,9 @@
             align-items: center;
             padding: 20px;
             background: rgba(0, 0, 0, 0.4);
+            margin-left: 250px; /* Adjust for sidebar width */
+            width: calc(100% - 250px); /* Adjust for sidebar width */
+            transition: margin-left 0.3s, width 0.3s;
         }
 
         .cta-button {
@@ -177,60 +144,113 @@
         .cta-button:hover {
             background: #ffc107;
         }
+
+        /* Sidebar Styling */
+        #sidebar {
+            width: 250px;
+            background-color: rgba(0, 0, 0, 0.8);
+            position: fixed;
+            top: 0;
+            left: -250px;
+            height: 100%;
+            transition: left 0.3s ease;
+            z-index: 999;
+        }
+
+        #sidebar.active {
+            left: 0;
+        }
+
+        #sidebar ul {
+            list-style-type: none;
+            padding: 20px;
+            margin: 0;
+        }
+
+        #sidebar ul li {
+            padding: 15px;
+            border-bottom: 1px solid #333;
+        }
+
+        #sidebar ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2em;
+            transition: 0.3s;
+        }
+
+        #sidebar ul li a:hover {
+            color: #ffdd57;
+        }
+
+        /* Sidebar Toggle Button */
+        .sidebar-toggle {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 30px;
+            cursor: pointer;
+            color: white;
+        }
     </style>
 </head>
 <body>
 
-    <!-- Sidebar Menu -->
-    <div id="sidebar">
-        <a href="friends" data-key="nav-friends">Friends</a>
-        <a href="travel-guide" data-key="nav-travel-guide">Travel Guide</a>
-        <a href="translation-guide" data-key="nav-translation-guide">Translation Guide</a>
-        <a href="about" data-key="nav-about">About</a>
-        <a href="contact" data-key="nav-contact">Contact Us</a>
-    </div>
+    <!-- Header Section -->
+    <div id="header">
+        <div class="container">
+            <nav>
+                <ul>
+                    <li><a href="home" data-key="nav-home">Home</a></li>
+                    <li><a href="about" data-key="nav-about">About</a></li>
+                    <li><a href="map" data-key="nav-destinations">Destinations</a></li>
+                    <li><a href="contact" data-key="nav-contact">Contact Us</a></li>
+                    <li><a href="community" data-key="nav-community">Community</a></li>
+                </ul>
+            </nav>
 
-    <!-- Main Content -->
-    <div class="main-content">
-        <!-- Header Section -->
-        <div id="header">
-            <div class="container">
-                <nav>
-                    <ul>
-                        <li><a href="home" data-key="nav-home">Home</a></li>
-                        <li><a href="community" data-key="nav-community">Community</a></li>
-                    </ul>
-                </nav>
+            <div>
+                <!-- Language Selector -->
+                <select class="language-selector" onchange="changeLanguage(this.value)">
+                    <option value="en">🇺🇸 English</option>
+                    <option value="es">🇪🇸 Español</option>
+                    <option value="fr">🇫🇷 Français</option>
+                </select>
 
-                <div>
-                    <!-- Language Selector -->
-                    <select class="language-selector" onchange="changeLanguage(this.value)">
-                        <option value="en">🇺🇸 English</option>
-                        <option value="es">🇪🇸 Español</option>
-                        <option value="fr">🇫🇷 Français</option>
-                    </select>
-
-                    <!-- Profile Button -->
-                    <div class="profile-dropdown">
-                        <button class="profile-button" data-key="profile">Profile</button>
-                        <div class="dropdown-content">
-                            <a href="#" data-key="sign-in">Sign In</a>
-                            <a href="#" data-key="register">Register</a>
-                            <a href="#" data-key="friends">Friends</a>
-                        </div>
+                <!-- Profile Button -->
+                <div class="profile-dropdown">
+                    <button class="profile-button" data-key="profile">Profile</button>
+                    <div class="dropdown-content">
+                        <a href="#" data-key="sign-in">Sign In</a>
+                        <a href="#" data-key="register">Register</a>
+                        <a href="#" data-key="friends">Friends</a>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Hero Section -->
-        <div class="hero">
-            <h1 data-key="hero-title">Explore the World</h1>
-            <p data-key="hero-text">
-                Adventure is out there! Let us take you on a journey to breathtaking destinations around the world.
-            </p>
-            <a href="map.html" class="cta-button" data-key="hero-button">Plan Your Trip</a>
-        </div>
+    <!-- Sidebar Menu -->
+    <div id="sidebar">
+        <ul>
+            <li><a href="friends" data-key="friends">Friends</a></li>
+            <li><a href="travel-guide" data-key="travel-guide">Travel Guide</a></li>
+            <li><a href="translation-guide" data-key="translation-guide">Translation Guide</a></li>
+            <li><a href="about" data-key="nav-about">About</a></li>
+            <li><a href="contact" data-key="nav-contact">Contact Us</a></li>
+        </ul>
+    </div>
+
+    <!-- Sidebar Toggle Button -->
+    <div class="sidebar-toggle" onclick="toggleSidebar()">☰</div>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <h1 data-key="hero-title">Explore the World</h1>
+        <p data-key="hero-text">
+            Adventure is out there! Let us take you on a journey to breathtaking destinations around the world.
+        </p>
+        <a href="map.html" class="cta-button" data-key="hero-button">Plan Your Trip</a>
     </div>
 
     <script>
@@ -241,18 +261,17 @@
                 "nav-destinations": "Destinations",
                 "nav-contact": "Contact Us",
                 "nav-community": "Community",
-                "nav-friends": "Friends",
-                "nav-travel-guide": "Travel Guide",
-                "nav-translation-guide": "Translation Guide",
                 "hero-title": "Explore the World",
                 "hero-text": "Adventure is out there! Let us take you on a journey to breathtaking destinations around the world.",
                 "hero-button": "Plan Your Trip",
                 "profile": "Profile",
                 "sign-in": "Sign In",
                 "register": "Register",
-                "friends": "Friends"
+                "friends": "Friends",
+                "travel-guide": "Travel Guide",
+                "translation-guide": "Translation Guide"
             },
-            // Translation entries for Spanish and French can be added as before
+            // Add other language translations here...
         };
 
         function changeLanguage(language) {
@@ -277,6 +296,19 @@
             const savedLanguage = localStorage.getItem("selectedLanguage") || "en";
             applyTranslations(savedLanguage);
         });
+
+        // Sidebar toggle function
+        function toggleSidebar() {
+            document.getElementById("sidebar").classList.toggle("active");
+            const hero = document.querySelector(".hero");
+            if (hero.style.marginLeft === "250px") {
+                hero.style.marginLeft = "0";
+                hero.style.width = "100%";
+            } else {
+                hero.style.marginLeft = "250px";
+                hero.style.width = "calc(100% - 250px)";
+            }
+        }
     </script>
 </body>
 </html>
