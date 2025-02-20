@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community | Explore the World</title>
+    <style>
+        /* General Styling */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('airplane.jpg') no-repeat center center/cover;
+            color: white;
+            text-align: center;
+        }
+
+        /* Header & Navigation Bar */
+        #header {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .container {
+            width: 85%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+        }
+
+        nav ul li {
+            margin-right: 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2em;
+            transition: 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #ffdd57;
+        }
+
+        /* Community Section */
+        .community-container {
+            margin-top: 100px; /* To avoid overlap with fixed header */
+            padding: 20px;
+        }
+
+        .section-title {
+            font-size: 2em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
+        }
+
+        .community-item {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .community-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .community-item .caption {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 1.8em;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .community-item:hover .caption {
+            opacity: 1;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <div id="header">
+        <div class="container">
+            <nav>
+                <ul>
+                    <li><a href="home">Home</a></li>
+                    <li><a href="about">About</a></li>
+                    <li><a href="map">Destinations</a></li>
+                    <li><a href="contact">Contact Us</a></li>
+                    <li><a href="gallery">Gallery</a></li>
+                    <li><a href="community" class="active">Community</a></li> <!-- Highlight Community page -->
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Community Section -->
+    <div class="community-container">
+        <!-- News Section -->
+        <div class="community-item">
+            <div class="caption">Latest News</div>
+            <p style="color: white;">Stay updated with the latest travel news, tips, and trends from around the world!</p>
+        </div>
+
+        <!-- Discounts Section -->
+        <div class="community-item">
+            <div class="caption">Exclusive Discounts</div>
+            <p style="color: white;">Get access to exclusive travel deals and discounts on your next adventure!</p>
+        </div>
+
+        <!-- Friend Activity Section -->
+        <div class="community-item">
+            <div class="caption">Friend Activity</div>
+            <p style="color: white;">See what your friends are up to and join them on exciting adventures!</p>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <div class="footer">
+        <p>&copy; 2025 Explore the World. All Rights Reserved.</p>
+    </div>
+
+</body>
+</html>
