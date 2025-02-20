@@ -57,51 +57,15 @@
             color: #ffdd57;
         }
 
-        /* Profile Dropdown */
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-
-        .profile-button {
+        /* Language Selector */
+        .language-selector {
             background: black;
-            color: #ffffff;
+            color: white;
             border: none;
-            padding: 8px 15px;
+            padding: 8px;
             font-size: 1em;
             border-radius: 5px;
             cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .profile-button:hover {
-            background: #050000;
-        }
-
-        .dropdown-options {
-            display: none;
-            position: absolute;
-            right: 0;
-            background: black;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-            border-radius: 5px;
-            min-width: 150px;
-        }
-
-        .dropdown-options a {
-            display: block;
-            padding: 10px;
-            text-decoration: none;
-            color: #fffff;
-            transition: 0.3s;
-        }
-
-        .dropdown-options a:hover {
-            background: #fffff;
-        }
-
-        .dropdown:hover .dropdown-options {
-            display: block;
         }
 
         /* Hero Section */
@@ -113,17 +77,6 @@
             align-items: center;
             padding: 20px;
             background: rgba(0, 0, 0, 0.4);
-        }
-
-        .hero h1 {
-            font-size: 3em;
-            margin-bottom: 10px;
-        }
-
-        .hero p {
-            font-size: 1.5em;
-            max-width: 700px;
-            margin: 0 auto 20px;
         }
 
         .cta-button {
@@ -150,17 +103,6 @@
             border-radius: 15px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
-
-        .content h2 {
-            color: #0077b6;
-        }
-
-        /* Image Styling */
-        .travel-image {
-            margin-top: 30px;
-            border-radius: 15px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-        }
     </style>
 </head>
 <body>
@@ -170,49 +112,94 @@
         <div class="container">
             <nav>
                 <ul>
-                    <li><a href="home">Home</a></li>
-                    <li><a href="about">About</a></li>
-                    <li><a href="map">Destinations</a></li>
-                    <li><a href="contact">Contact Us</a></li>
+                    <li><a href="home" data-key="nav-home">Home</a></li>
+                    <li><a href="about" data-key="nav-about">About</a></li>
+                    <li><a href="map" data-key="nav-destinations">Destinations</a></li>
+                    <li><a href="contact" data-key="nav-contact">Contact Us</a></li>
                 </ul>
             </nav>
-            
-            <!-- Profile Button with Dropdown -->
-            <div class="dropdown">
-                <button class="profile-button">Profile</button>
-                <div class="dropdown-options">
-                    <a href="#register">Register</a>
-                    <a href="#login">Login</a>
-                    <a href="#">Notifications</a>
-                    <a href="#">Friends</a>
-                </div>
-            </div>
+
+            <!-- Language Selector -->
+            <select class="language-selector" onchange="changeLanguage(this.value)">
+                <option value="en">🇺🇸 English</option>
+                <option value="es">🇪🇸 Español</option>
+                <option value="fr">🇫🇷 Français</option>
+            </select>
         </div>
     </div>
 
     <!-- Hero Section -->
     <div class="hero">
-        <h1>Explore the World</h1>
-        <p>Adventure is out there! Let us take you on a journey to breathtaking destinations around the world.</p>
-        <a href="#" class="cta-button">Plan Your Trip</a>
+        <h1 data-key="hero-title">Explore the World</h1>
+        <p data-key="hero-text">
+            Adventure is out there! Let us take you on a journey to breathtaking destinations around the world.
+        </p>
+        <a href="#" class="cta-button" data-key="hero-button">Plan Your Trip</a>
     </div>
 
     <!-- Main Content Section -->
     <div class="content">
-        <h2>Welcome to Your Next Adventure</h2>
-        <p>
+        <h2 data-key="content-title">Welcome to Your Next Adventure</h2>
+        <p data-key="content-text-1">
             Travel broadens the mind and fills the soul with unforgettable experiences. 
             From the bustling streets of Tokyo to the serene beaches of the Maldives, 
             let us help you find your next dream destination.
         </p>
-        <p>
+        <p data-key="content-text-2">
             Discover hidden gems, meet new people, and embark on a journey of a lifetime. 
             Your adventure starts here!
         </p>
     </div>
 
-    <!-- Travel Image -->
-    <img src="mountain.jpg" alt="Scenic Travel Destination" height="420" width="620" class="travel-image">
+    <script>
+        const translations = {
+            en: {
+                "nav-home": "Home",
+                "nav-about": "About",
+                "nav-destinations": "Destinations",
+                "nav-contact": "Contact Us",
+                "hero-title": "Explore the World",
+                "hero-text": "Adventure is out there! Let us take you on a journey to breathtaking destinations around the world.",
+                "hero-button": "Plan Your Trip",
+                "content-title": "Welcome to Your Next Adventure",
+                "content-text-1": "Travel broadens the mind and fills the soul with unforgettable experiences. From the bustling streets of Tokyo to the serene beaches of the Maldives, let us help you find your next dream destination.",
+                "content-text-2": "Discover hidden gems, meet new people, and embark on a journey of a lifetime. Your adventure starts here!"
+            },
+            es: {
+                "nav-home": "Inicio",
+                "nav-about": "Acerca de",
+                "nav-destinations": "Destinos",
+                "nav-contact": "Contáctenos",
+                "hero-title": "Explora el Mundo",
+                "hero-text": "¡La aventura está ahí fuera! Permítenos llevarte a destinos impresionantes alrededor del mundo.",
+                "hero-button": "Planifica tu Viaje",
+                "content-title": "Bienvenido a tu Próxima Aventura",
+                "content-text-1": "Viajar amplía la mente y llena el alma con experiencias inolvidables. Desde las bulliciosas calles de Tokio hasta las tranquilas playas de Maldivas, permítenos ayudarte a encontrar tu próximo destino soñado.",
+                "content-text-2": "Descubre joyas escondidas, conoce gente nueva y emprende un viaje inolvidable. ¡Tu aventura comienza aquí!"
+            },
+            fr: {
+                "nav-home": "Accueil",
+                "nav-about": "À Propos",
+                "nav-destinations": "Destinations",
+                "nav-contact": "Contactez-nous",
+                "hero-title": "Explorez le Monde",
+                "hero-text": "L'aventure est là dehors ! Laissez-nous vous emmener dans des destinations à couper le souffle à travers le monde.",
+                "hero-button": "Planifiez votre Voyage",
+                "content-title": "Bienvenue dans votre Prochaine Aventure",
+                "content-text-1": "Voyager élargit l'esprit et remplit l'âme d'expériences inoubliables. Des rues animées de Tokyo aux plages sereines des Maldives, laissez-nous vous aider à trouver votre prochaine destination de rêve.",
+                "content-text-2": "Découvrez des trésors cachés, rencontrez de nouvelles personnes et embarquez pour un voyage inoubliable. Votre aventure commence ici !"
+            }
+        };
+
+        function changeLanguage(language) {
+            document.querySelectorAll("[data-key]").forEach(element => {
+                const key = element.getAttribute("data-key");
+                if (translations[language][key]) {
+                    element.innerText = translations[language][key];
+                }
+            });
+        }
+    </script>
 
 </body>
 </html>
