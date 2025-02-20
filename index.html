@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Explore the World</title>
     <style>
@@ -25,6 +24,9 @@
             top: 0;
             left: 0;
             z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .container {
@@ -55,6 +57,50 @@
 
         nav ul li a:hover {
             color: #ffdd57;
+        }
+
+        /* Profile Button */
+        .profile-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .profile-button {
+            background: #ffdd57;
+            color: black;
+            border: none;
+            padding: 10px 15px;
+            font-size: 1em;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background: white;
+            color: black;
+            min-width: 120px;
+            right: 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            overflow: hidden;
+            z-index: 1000;
+        }
+
+        .dropdown-content a {
+            padding: 10px;
+            display: block;
+            color: black;
+            text-decoration: none;
+        }
+
+        .dropdown-content a:hover {
+            background: #f1f1f1;
+        }
+
+        .profile-dropdown:hover .dropdown-content {
+            display: block;
         }
 
         /* Language Selector */
@@ -92,17 +138,6 @@
         .cta-button:hover {
             background: #ffc107;
         }
-
-        /* Content Section */
-        .content {
-            padding: 50px;
-            background: rgba(255, 255, 255, 0.9);
-            color: #333;
-            text-align: center;
-            margin: 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-        }
     </style>
 </head>
 <body>
@@ -119,12 +154,23 @@
                 </ul>
             </nav>
 
-            <!-- Language Selector -->
-            <select class="language-selector" onchange="changeLanguage(this.value)">
-                <option value="en">🇺🇸 English</option>
-                <option value="es">🇪🇸 Español</option>
-                <option value="fr">🇫🇷 Français</option>
-            </select>
+            <div>
+                <!-- Language Selector -->
+                <select class="language-selector" onchange="changeLanguage(this.value)">
+                    <option value="en">🇺🇸 English</option>
+                    <option value="es">🇪🇸 Español</option>
+                    <option value="fr">🇫🇷 Français</option>
+                </select>
+
+                <!-- Profile Button -->
+                <div class="profile-dropdown">
+                    <button class="profile-button" data-key="profile">Profile</button>
+                    <div class="dropdown-content">
+                        <a href="#" data-key="sign-in">Sign In</a>
+                        <a href="#" data-key="register">Register</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -137,20 +183,6 @@
         <a href="#" class="cta-button" data-key="hero-button">Plan Your Trip</a>
     </div>
 
-    <!-- Main Content Section -->
-    <div class="content">
-        <h2 data-key="content-title">Welcome to Your Next Adventure</h2>
-        <p data-key="content-text-1">
-            Travel broadens the mind and fills the soul with unforgettable experiences. 
-            From the bustling streets of Tokyo to the serene beaches of the Maldives, 
-            let us help you find your next dream destination.
-        </p>
-        <p data-key="content-text-2">
-            Discover hidden gems, meet new people, and embark on a journey of a lifetime. 
-            Your adventure starts here!
-        </p>
-    </div>
-
     <script>
         const translations = {
             en: {
@@ -161,9 +193,9 @@
                 "hero-title": "Explore the World",
                 "hero-text": "Adventure is out there! Let us take you on a journey to breathtaking destinations around the world.",
                 "hero-button": "Plan Your Trip",
-                "content-title": "Welcome to Your Next Adventure",
-                "content-text-1": "Travel broadens the mind and fills the soul with unforgettable experiences. From the bustling streets of Tokyo to the serene beaches of the Maldives, let us help you find your next dream destination.",
-                "content-text-2": "Discover hidden gems, meet new people, and embark on a journey of a lifetime. Your adventure starts here!"
+                "profile": "Profile",
+                "sign-in": "Sign In",
+                "register": "Register"
             },
             es: {
                 "nav-home": "Inicio",
@@ -173,9 +205,9 @@
                 "hero-title": "Explora el Mundo",
                 "hero-text": "¡La aventura está ahí fuera! Permítenos llevarte a destinos impresionantes alrededor del mundo.",
                 "hero-button": "Planifica tu Viaje",
-                "content-title": "Bienvenido a tu Próxima Aventura",
-                "content-text-1": "Viajar amplía la mente y llena el alma con experiencias inolvidables. Desde las bulliciosas calles de Tokio hasta las tranquilas playas de Maldivas, permítenos ayudarte a encontrar tu próximo destino soñado.",
-                "content-text-2": "Descubre joyas escondidas, conoce gente nueva y emprende un viaje inolvidable. ¡Tu aventura comienza aquí!"
+                "profile": "Perfil",
+                "sign-in": "Iniciar Sesión",
+                "register": "Registrarse"
             },
             fr: {
                 "nav-home": "Accueil",
@@ -185,9 +217,9 @@
                 "hero-title": "Explorez le Monde",
                 "hero-text": "L'aventure est là dehors ! Laissez-nous vous emmener dans des destinations à couper le souffle à travers le monde.",
                 "hero-button": "Planifiez votre Voyage",
-                "content-title": "Bienvenue dans votre Prochaine Aventure",
-                "content-text-1": "Voyager élargit l'esprit et remplit l'âme d'expériences inoubliables. Des rues animées de Tokyo aux plages sereines des Maldives, laissez-nous vous aider à trouver votre prochaine destination de rêve.",
-                "content-text-2": "Découvrez des trésors cachés, rencontrez de nouvelles personnes et embarquez pour un voyage inoubliable. Votre aventure commence ici !"
+                "profile": "Profil",
+                "sign-in": "Se Connecter",
+                "register": "S'inscrire"
             }
         };
 
