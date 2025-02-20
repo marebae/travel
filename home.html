@@ -11,11 +11,24 @@
             margin: 0;
             padding: 0;
             background: url('airplane.jpg') no-repeat center center/cover;
+            background-size: cover;
             color: white;
             text-align: center;
             display: flex;
             flex-direction: column;
             height: 100vh;
+            position: relative;
+        }
+
+        /* Background Tint */
+        .background-tint {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4); /* Tint for background */
+            z-index: 1; /* Make sure it's behind the content but above the body */
         }
 
         /* Header & Navigation Bar */
@@ -129,6 +142,8 @@
             margin-left: 250px; /* Adjust for sidebar width */
             width: calc(100% - 250px); /* Adjust for sidebar width */
             transition: margin-left 0.3s, width 0.3s;
+            position: relative;
+            z-index: 2; /* Make sure the hero section is above the background */
         }
 
         .cta-button {
@@ -154,7 +169,7 @@
             left: -250px;
             height: 100%;
             transition: left 0.3s ease;
-            z-index: 999;
+            z-index: 1100; /* Make sure the sidebar is above other content */
         }
 
         #sidebar.active {
@@ -191,10 +206,14 @@
             font-size: 30px;
             cursor: pointer;
             color: white;
+            z-index: 1200; /* Ensure the button is above everything else */
         }
     </style>
 </head>
 <body>
+
+    <!-- Background Tint -->
+    <div class="background-tint"></div>
 
     <!-- Header Section -->
     <div id="header">
