@@ -23,14 +23,12 @@
             margin-bottom: 20px;
         }
 
-        /* Container to center content */
         .content-container {
             width: 90%;
             max-width: 1200px;
             margin: 0 auto;
         }
 
-        /* Dropdown Menu */
         select {
             padding: 10px;
             font-size: 1.2em;
@@ -50,7 +48,6 @@
             margin-bottom: 50px;
             border-collapse: collapse;
             text-align: center;
-            overflow-x: auto;
         }
 
         table, th, td {
@@ -75,7 +72,6 @@
             font-weight: bold;
         }
 
-        /* Button Styling */
         .back-button {
             background: #ffdd57;
             color: #333;
@@ -139,7 +135,6 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Table Rows with Translation Data -->
                 <tr class="all spanish">
                     <td><span>Hello</span></td>
                     <td>Hello</td>
@@ -202,6 +197,7 @@
                 if (selectedLanguage === 'all') {
                     row.style.display = '';
                 } else {
+                    // Hide rows where the selected language is not included
                     if (row.classList.contains(selectedLanguage)) {
                         row.style.display = '';
                     } else {
