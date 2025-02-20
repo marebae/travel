@@ -26,7 +26,7 @@
             z-index: 1000;
             display: flex;
             justify-content: space-between;
-            align-items: center.
+            align-items: center;
         }
 
         .container {
@@ -34,35 +34,35 @@
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
-            align-items: center.
+            align-items: center;
         }
 
         nav ul {
             list-style-type: none;
             padding: 0;
             margin: 0;
-            display: flex.
+            display: flex;
         }
 
         nav ul li {
-            margin-right: 20px.
+            margin-right: 20px;
         }
 
         nav ul li a {
             color: white;
             text-decoration: none;
             font-size: 1.2em;
-            transition: 0.3s.
+            transition: 0.3s;
         }
 
         nav ul li a:hover {
-            color: #ffdd57.
+            color: #ffdd57;
         }
 
         /* Profile Button */
         .profile-dropdown {
             position: relative;
-            display: inline-block.
+            display: inline-block;
         }
 
         .profile-button {
@@ -72,7 +72,7 @@
             padding: 10px 15px;
             font-size: 1em;
             cursor: pointer;
-            border-radius: 5px.
+            border-radius: 5px;
         }
 
         .dropdown-content {
@@ -85,22 +85,22 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             border-radius: 5px;
             overflow: hidden;
-            z-index: 1000.
+            z-index: 1000;
         }
 
         .dropdown-content a {
             padding: 10px;
             display: block;
             color: black;
-            text-decoration: none.
+            text-decoration: none;
         }
 
         .dropdown-content a:hover {
-            background: #f1f1f1.
+            background: #f1f1f1;
         }
 
         .profile-dropdown:hover .dropdown-content {
-            display: block.
+            display: block;
         }
 
         /* Language Selector */
@@ -111,7 +111,7 @@
             padding: 8px;
             font-size: 1em;
             border-radius: 5px;
-            cursor: pointer.
+            cursor: pointer;
         }
 
         /* Hero Section */
@@ -122,7 +122,7 @@
             justify-content: center;
             align-items: center;
             padding: 20px;
-            background: rgba(0, 0, 0, 0.4).
+            background: rgba(0, 0, 0, 0.4);
         }
 
         .cta-button {
@@ -132,11 +132,11 @@
             padding: 12px 25px;
             border-radius: 30px;
             text-decoration: none;
-            transition: 0.3s.
+            transition: 0.3s;
         }
 
         .cta-button:hover {
-            background: #ffc107.
+            background: #ffc107;
         }
     </style>
 </head>
@@ -151,6 +151,7 @@
                     <li><a href="about" data-key="nav-about">About</a></li>
                     <li><a href="map" data-key="nav-destinations">Destinations</a></li>
                     <li><a href="contact" data-key="nav-contact">Contact Us</a></li>
+                    <li><a href="community" data-key="nav-community">Community</a></li>
                 </ul>
             </nav>
 
@@ -185,70 +186,73 @@
     </div>
 
     <script>
-    const translations = {
-        en: {
-            "nav-home": "Home",
-            "nav-about": "About",
-            "nav-destinations": "Destinations",
-            "nav-contact": "Contact Us",
-            "hero-title": "Explore the World",
-            "hero-text": "Adventure is out there! Let us take you on a journey to breathtaking destinations around the world.",
-            "hero-button": "Plan Your Trip",
-            "profile": "Profile",
-            "sign-in": "Sign In",
-            "register": "Register",
-            "friends": "Friends"
-        },
-        es: {
-            "nav-home": "Inicio",
-            "nav-about": "Acerca de",
-            "nav-destinations": "Destinos",
-            "nav-contact": "Contáctenos",
-            "hero-title": "Explora el Mundo",
-            "hero-text": "¡La aventura está ahí fuera! Permítenos llevarte a destinos impresionantes alrededor del mundo.",
-            "hero-button": "Planifica tu Viaje",
-            "profile": "Perfil",
-            "sign-in": "Iniciar Sesión",
-            "register": "Registrarse",
-            "friends": "Amigos"
-        },
-        fr: {
-            "nav-home": "Accueil",
-            "nav-about": "À Propos",
-            "nav-destinations": "Destinations",
-            "nav-contact": "Contactez-nous",
-            "hero-title": "Explorez le Monde",
-            "hero-text": "L'aventure est là dehors ! Laissez-nous vous emmener dans des destinations à couper le souffle à travers le monde.",
-            "hero-button": "Planifiez votre Voyage",
-            "profile": "Profil",
-            "sign-in": "Se Connecter",
-            "register": "S'inscrire",
-            "friends": "Amis"
-        }
-    };
-
-    function changeLanguage(language) {
-        localStorage.setItem("selectedLanguage", language); // Save to localStorage
-        applyTranslations(language);
-    }
-
-    function applyTranslations(language) {
-        document.querySelectorAll("[data-key]").forEach(element => {
-            const key = element.getAttribute("data-key");
-            if (translations[language] && translations[language][key]) {
-                element.innerText = translations[language][key];
+        const translations = {
+            en: {
+                "nav-home": "Home",
+                "nav-about": "About",
+                "nav-destinations": "Destinations",
+                "nav-contact": "Contact Us",
+                "nav-community": "Community",
+                "hero-title": "Explore the World",
+                "hero-text": "Adventure is out there! Let us take you on a journey to breathtaking destinations around the world.",
+                "hero-button": "Plan Your Trip",
+                "profile": "Profile",
+                "sign-in": "Sign In",
+                "register": "Register",
+                "friends": "Friends"
+            },
+            es: {
+                "nav-home": "Inicio",
+                "nav-about": "Acerca de",
+                "nav-destinations": "Destinos",
+                "nav-contact": "Contáctenos",
+                "nav-community": "Comunidad",
+                "hero-title": "Explora el Mundo",
+                "hero-text": "¡La aventura está ahí fuera! Permítenos llevarte a destinos impresionantes alrededor del mundo.",
+                "hero-button": "Planifica tu Viaje",
+                "profile": "Perfil",
+                "sign-in": "Iniciar Sesión",
+                "register": "Registrarse",
+                "friends": "Amigos"
+            },
+            fr: {
+                "nav-home": "Accueil",
+                "nav-about": "À Propos",
+                "nav-destinations": "Destinations",
+                "nav-contact": "Contactez-nous",
+                "nav-community": "Communauté",
+                "hero-title": "Explorez le Monde",
+                "hero-text": "L'aventure est là dehors ! Laissez-nous vous emmener dans des destinations à couper le souffle à travers le monde.",
+                "hero-button": "Planifiez votre Voyage",
+                "profile": "Profil",
+                "sign-in": "Se Connecter",
+                "register": "S'inscrire",
+                "friends": "Amis"
             }
+        };
+
+        function changeLanguage(language) {
+            localStorage.setItem("selectedLanguage", language); // Save to localStorage
+            applyTranslations(language);
+        }
+
+        function applyTranslations(language) {
+            document.querySelectorAll("[data-key]").forEach(element => {
+                const key = element.getAttribute("data-key");
+                if (translations[language] && translations[language][key]) {
+                    element.innerText = translations[language][key];
+                }
+            });
+
+            // Set the language dropdown to the correct option
+            document.querySelector(".language-selector").value = language;
+        }
+
+        // On page load, apply the saved language
+        document.addEventListener("DOMContentLoaded", () => {
+            const savedLanguage = localStorage.getItem("selectedLanguage") || "en";
+            applyTranslations(savedLanguage);
         });
-
-        // Set the language dropdown to the correct option
-        document.querySelector(".language-selector").value = language;
-    }
-
-    // On page load, apply the saved language
-    document.addEventListener("DOMContentLoaded", () => {
-        const savedLanguage = localStorage.getItem("selectedLanguage") || "en";
-        applyTranslations(savedLanguage);
-    });
     </script>
 </body>
 </html>
