@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us | Mystery Trip</title>
+    <title data-key="contact-title">Contact Us | Mystery Trip</title>
     <style>
         /* General Styling */
         body {
@@ -124,6 +124,14 @@
             bottom: 0;
             color: white;
         }
+
+        /* Language Selector */
+        .language-selector {
+            margin: 10px;
+            padding: 5px;
+            font-size: 1em;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -133,30 +141,37 @@
         <div class="container">
             <nav>
                 <ul>
-                    <li><a href="home">Home</a></li>
-                    <li><a href="about">About</a></li>
-                    <li><a href="map">Destinations</a></li>
-                    <li><a href="contact">Contact Us</a></li>
+                    <li><a href="home" data-key="nav-home">Home</a></li>
+                    <li><a href="about" data-key="nav-about">About</a></li>
+                    <li><a href="map" data-key="nav-destinations">Destinations</a></li>
+                    <li><a href="contact" data-key="nav-contact">Contact Us</a></li>
                 </ul>
             </nav>
+
+            <!-- Language Selector -->
+            <select class="language-selector" onchange="changeLanguage(this.value)">
+                <option value="en">English</option>
+                <option value="es">Español</option>
+                <option value="fr">Français</option>
+            </select>
         </div>
     </div>
 
     <!-- Contact Section -->
     <div class="contact-container">
-        <h2>Contact Us</h2>
-        <p>Have any questions or concerns? Feel free to reach out to us!</p>
+        <h2 data-key="contact-title">Contact Us</h2>
+        <p data-key="contact-text">Have any questions or concerns? Feel free to reach out to us!</p>
         <form class="contact-form">
-            <label for="name">Name</label>
+            <label for="name" data-key="contact-name">Name</label>
             <input type="text" id="name" placeholder="Your Name" required>
 
-            <label for="email">Email</label>
+            <label for="email" data-key="contact-email">Email</label>
             <input type="email" id="email" placeholder="Your Email" required>
 
-            <label for="message">Message</label>
+            <label for="message" data-key="contact-message">Message</label>
             <textarea id="message" rows="5" placeholder="Your Message" required></textarea>
 
-            <button type="submit">Send Message</button>
+            <button type="submit" data-key="contact-button">Send Message</button>
         </form>
     </div>
 
@@ -164,6 +179,68 @@
     <div class="footer">
         <p>&copy; 2025 Mystery Trip. All Rights Reserved.</p>
     </div>
+
+    <script>
+        const translations = {
+            en: {
+                "nav-home": "Home",
+                "nav-about": "About",
+                "nav-destinations": "Destinations",
+                "nav-contact": "Contact Us",
+                "contact-title": "Contact Us",
+                "contact-text": "Have any questions or concerns? Feel free to reach out to us!",
+                "contact-name": "Name",
+                "contact-email": "Email",
+                "contact-message": "Message",
+                "contact-button": "Send Message"
+            },
+            es: {
+                "nav-home": "Inicio",
+                "nav-about": "Acerca de",
+                "nav-destinations": "Destinos",
+                "nav-contact": "Contáctenos",
+                "contact-title": "Contáctenos",
+                "contact-text": "¿Tienes preguntas o inquietudes? ¡No dudes en comunicarte con nosotros!",
+                "contact-name": "Nombre",
+                "contact-email": "Correo Electrónico",
+                "contact-message": "Mensaje",
+                "contact-button": "Enviar Mensaje"
+            },
+            fr: {
+                "nav-home": "Accueil",
+                "nav-about": "À Propos",
+                "nav-destinations": "Destinations",
+                "nav-contact": "Contactez-nous",
+                "contact-title": "Contactez-nous",
+                "contact-text": "Vous avez des questions ou des préoccupations ? N'hésitez pas à nous contacter !",
+                "contact-name": "Nom",
+                "contact-email": "Email",
+                "contact-message": "Message",
+                "contact-button": "Envoyer le Message"
+            }
+        };
+
+        function changeLanguage(language) {
+            localStorage.setItem("selectedLanguage", language);
+            applyTranslations(language);
+        }
+
+        function applyTranslations(language) {
+            document.querySelectorAll("[data-key]").forEach(element => {
+                const key = element.getAttribute("data-key");
+                if (translations[language] && translations[language][key]) {
+                    element.innerText = translations[language][key];
+                }
+            });
+
+            document.querySelector(".language-selector").value = language;
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const savedLanguage = localStorage.getItem("selectedLanguage") || "en";
+            applyTranslations(savedLanguage);
+        });
+    </script>
 
 </body>
 </html>
