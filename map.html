@@ -160,6 +160,55 @@
             bottom: 0;
             color: white;
         }
+
+        /* Sidebar Styling */
+        #sidebar {
+            width: 250px;
+            background-color: rgba(0, 0, 0, 0.8);
+            position: fixed;
+            top: 0;
+            left: -250px;
+            height: 100%;
+            transition: left 0.3s ease;
+            z-index: 1100; /* Make sure the sidebar is above other content */
+        }
+
+        #sidebar.active {
+            left: 0;
+        }
+
+        #sidebar ul {
+            list-style-type: none;
+            padding: 20px;
+            margin: 0;
+        }
+
+        #sidebar ul li {
+            padding: 15px;
+            border-bottom: 1px solid #333;
+        }
+
+        #sidebar ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2em;
+            transition: 0.3s;
+        }
+
+        #sidebar ul li a:hover {
+            color: #ffdd57;
+        }
+
+        /* Sidebar Toggle Button */
+        .sidebar-toggle {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 30px;
+            cursor: pointer;
+            color: white;
+            z-index: 1200; /* Ensure the button is above everything else */
+        }
     </style>
 </head>
 <body>
@@ -178,6 +227,21 @@
             </nav>
         </div>
     </div>
+
+    <!-- Sidebar Menu -->
+    <div id="sidebar">
+        <ul>
+            <li><a href="friends.html" data-key="friends">Friends</a></li>
+            <li><a href="travel-guide.html" data-key="travel-guide">Travel Guide</a></li>
+            <li><a href="translation-guide.html" data-key="translation-guide">Translation Guide</a></li>
+            <li><a href="achievements.html" data-key="Achievements">Achievements</a></li>
+            <li><a href="about.html" data-key="about">About</a></li> <!-- About link in the sidebar -->
+            <li><a href="contact-us.html" data-key="contact-us">Contact Us</a></li> <!-- Contact Us link in the sidebar -->
+        </ul>
+    </div>
+
+    <!-- Sidebar Toggle Button -->
+    <div class="sidebar-toggle" onclick="toggleSidebar()">☰</div>
 
     <!-- Hero Section -->
     <div class="hero">
