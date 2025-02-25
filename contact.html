@@ -304,6 +304,10 @@
             const savedLanguage = localStorage.getItem("selectedLanguage") || "en";
             applyTranslations(savedLanguage);
         });
+
+        function toggleSidebar(){
+            document.getElementById("sidebar").classList.toggle("active");
+        }
     </script>
 
 </body>
