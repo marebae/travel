@@ -1,42 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign In</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
-        input, button { margin: 10px; padding: 10px; }
-    </style>
-</head>
-<body>
-    <h2>Sign In</h2>
-    <input type="text" id="username" placeholder="Username" required><br>
-    <input type="password" id="password" placeholder="Password" required><br>
-    <button onclick="signIn()">Login</button>
-    <p id="message"></p>
+<script>
+document.getElementById("loginForm").addEventListener("submit", function (event) {
+    event.preventDefault();
 
-    <script>
-        function signIn() {
-            var username = document.getElementById("username").value;
-            var password = document.getElementById("password").value;
-            
-            fetch("https://script.google.com/macros/s/AKfycbwvZ-4e4OUWLis5Z1hyic5ixD96cwZzK3djgPNwhtQ9SClLHFMjkoUo5h3QM23UjHvF/exec", {
-                method: "POST",
-                body: JSON.stringify({ username: username, password: password }),
-                headers: { "Content-Type": "application/json" }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    window.location.href = "contact.html";  // Redirect to a dashboard page
-                } else {
-                    document.getElementById("message").innerText = "Invalid login. Redirecting to Registration...";
-                    setTimeout(() => { window.location.href = "registration.html"; }, 2000);
-                }
-            })
-            .catch(error => console.error("Error:", error));
+    let username = document.getElementById("username").value;
+    let password = document.getElementById("password").value;
+
+    fetch("https://script.google.com/macros/s/AKfycbxKC1oFTnEiGgC2HSrY8XjC-GELVfA2NWz6ivdoqGmxfDvR6dTrs0rfNxbfub366r-y/exec", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert("Login successful! Redirecting...");
+            window.location.href = "dashboard.html";  // Change to the correct page
+        } else {
+            alert("Invalid credentials! Redirecting to registration...");
+            window.location.href = "registration.html";
         }
-    </script>
-</body>
-</html>
+    })
+    .catch(error => console.error("Error:", error));
+});
+</script>
