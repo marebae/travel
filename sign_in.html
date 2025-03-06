@@ -29,7 +29,7 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    window.location.href = "dashboard.html";  // Redirect to a dashboard page
+                    window.location.href = "index.html";  // Redirect to a dashboard page
                 } else {
                     document.getElementById("message").innerText = "Invalid login. Redirecting to Registration...";
                     setTimeout(() => { window.location.href = "registration.html"; }, 2000);
