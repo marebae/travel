@@ -2,81 +2,73 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Destinations Map</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Destinations | Mystery Trip</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
     <style>
-        #map { height: 600px; width: 100%; }
-        .filter-container { margin: 20px; }
+        #map { width: 80%; height: 500px; max-width: 800px; border-radius: 10px; }
+        .search-bar { margin: 10px; }
     </style>
 </head>
 <body>
-    <div class="filter-container">
-        <label for="region">Region:</label>
-        <select id="region">
-            <option value="all">All</option>
-            <option value="europe">Europe</option>
-            <option value="asia">Asia</option>
-            <!-- Add more regions as needed -->
-        </select>
-
-        <label for="budget">Max Daily Budget (USD):</label>
-        <input type="number" id="budget" placeholder="Enter amount">
-
-        <button onclick="applyFilters()">Apply Filters</button>
+    <div class="search-bar">
+        <input type="text" id="search" placeholder="Search for a place...">
+        <button onclick="searchLocation()">Search</button>
     </div>
-
     <div id="map"></div>
-
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    
     <script>
-        // Sample dataset
-        const destinations = [
-            { name: "France", region: "europe", avgExpenditure: 150, lat: 46.603354, lon: 1.888334 },
-            { name: "Japan", region: "asia", avgExpenditure: 200, lat: 36.204824, lon: 138.252924 },
-            // Add more destinations as needed
-        ];
-
-        // Initialize map
-        const map = L.map('map').setView([20, 0], 2);
-
-        // Add OpenStreetMap tile layer
+        var map = L.map('map').setView([37.7749, -122.4194], 5);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; OpenStreetMap contributors'
+            attribution: '© OpenStreetMap contributors'
         }).addTo(map);
 
-        // Function to add markers based on filtered data
-        function addMarkers(data) {
-            data.forEach(dest => {
-                L.marker([dest.lat, dest.lon])
-                    .addTo(map)
-                    .bindPopup(`<b>${dest.name}</b><br>Avg Daily Expenditure: $${dest.avgExpenditure}`);
+        function searchLocation() {
+            var query = document.getElementById("search").value;
+            fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.length > 0) {
+                        var lat = data[0].lat;
+                        var lon = data[0].lon;
+                        map.setView([lat, lon], 13);
+                        fetchPOIs(lat, lon);
+                    }
+                });
+        }
+
+        function fetchPOIs(lat, lon) {
+            var query = `[out:json];
+                (
+                    node["tourism"="hotel"](around:5000,${lat},${lon});
+                    node["amenity"="restaurant"](around:5000,${lat},${lon});
+                    node["tourism"="attraction"](around:5000,${lat},${lon});
+                );
+                out;`;
+            
+            fetch("https://overpass-api.de/api/interpreter?data=" + encodeURIComponent(query))
+                .then(response => response.json())
+                .then(data => {
+                    data.elements.forEach(element => {
+                        if (element.lat && element.lon) {
+                            L.marker([element.lat, element.lon]).addTo(map)
+                                .bindPopup(element.tags.name || "Unknown Place");
+                        }
+                    });
+                });
+        }
+
+        function locateUser() {
+            map.locate({ setView: true, maxZoom: 13 });
+            map.on('locationfound', function(e) {
+                L.marker(e.latlng).addTo(map).bindPopup("You are here").openPopup();
+                fetchPOIs(e.latlng.lat, e.latlng.lng);
             });
         }
 
-        // Initial load of all markers
-        addMarkers(destinations);
-
-        // Apply filters
-        function applyFilters() {
-            const selectedRegion = document.getElementById('region').value;
-            const maxBudget = document.getElementById('budget').value;
-
-            // Clear existing markers
-            map.eachLayer(layer => {
-                if (layer instanceof L.Marker) {
-                    map.removeLayer(layer);
-                }
-            });
-
-            // Filter data
-            const filteredData = destinations.filter(dest => {
-                return (selectedRegion === 'all' || dest.region === selectedRegion) &&
-                       (!maxBudget || dest.avgExpenditure <= maxBudget);
-            });
-
-            // Add filtered markers
-            addMarkers(filteredData);
-        }
+        locateUser();
     </script>
 </body>
 </html>
