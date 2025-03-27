@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gallery | Explore the World</title>
     <style>
+        /* CSS Variables */
+        :root {
+            --main-bg-color: rgba(0, 0, 0, 0.7);
+            --hover-color: #ffdd57;
+            --text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
+        }
+
         /* General Styling */
         body {
             font-family: 'Poppins', sans-serif;
@@ -16,8 +23,8 @@
         }
 
         /* Header & Navigation Bar */
-        #header {
-            background: rgba(0, 0, 0, 0.7);
+        header {
+            background: var(--main-bg-color);
             padding: 15px 0;
             position: fixed;
             width: 100%;
@@ -56,16 +63,19 @@
         }
 
         nav ul li a:hover {
-            color: #ffdd57;
+            color: var(--hover-color);
         }
 
         /* Gallery Section */
+        main {
+            padding: 40px 5%;
+            margin-top: 100px; /* To avoid overlap with fixed header */
+        }
+
         .gallery-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 15px;
-            padding: 40px 5%;
-            margin-top: 100px; /* To avoid overlap with fixed header */
         }
 
         .gallery-item {
@@ -101,7 +111,7 @@
             transform: translate(-50%, -50%);
             color: white;
             font-size: 1.5em;
-            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
+            text-shadow: var(--text-shadow);
             opacity: 0;
             transition: opacity 0.3s ease;
         }
@@ -111,10 +121,10 @@
         }
 
         /* Footer */
-        .footer {
+        footer {
             text-align: center;
             padding: 20px;
-            background: rgba(0, 0, 0, 0.7);
+            background: var(--main-bg-color);
             position: fixed;
             width: 100%;
             bottom: 0;
@@ -124,7 +134,7 @@
         /* Sidebar Styling */
         #sidebar {
             width: 250px;
-            background-color: rgba(0, 0, 0, 0.8);
+            background-color: var(--main-bg-color);
             position: fixed;
             top: 0;
             left: -250px;
@@ -156,7 +166,7 @@
         }
 
         #sidebar ul li a:hover {
-            color: #ffdd57;
+            color: var(--hover-color);
         }
 
         /* Sidebar Toggle Button */
@@ -174,7 +184,7 @@
 <body>
 
     <!-- Header Section -->
-    <div id="header">
+    <header>
         <div class="container">
             <nav>
                  <ul>
@@ -186,7 +196,7 @@
                 </ul>
             </nav>
         </div>
-    </div>
+    </header>
 
     <!-- Sidebar Menu -->
     <div id="sidebar">
@@ -203,51 +213,53 @@
     <!-- Sidebar Toggle Button -->
     <div class="sidebar-toggle" onclick="toggleSidebar()">☰</div>
 
-
     <!-- Gallery Section -->
-    <div class="gallery-container">
-        <div class="gallery-item">
-            <img src="images/paris.jpg" alt="City Image 1">
-            <div class="caption">Paris</div>
+    <main>
+        <div class="gallery-container">
+            <div class="gallery-item">
+                <img src="images/paris.jpg" alt="Paris">
+                <div class="caption">Paris</div>
+            </div>
+            <div class="gallery-item">
+                <img src="images/japan.jpg" alt="Tokyo">
+                <div class="caption">Tokyo</div>
+            </div>
+            <div class="gallery-item">
+                <img src="images/sydney.jpg" alt="Sydney">
+                <div class="caption">Sydney</div>
+            </div>
+            <div class="gallery-item">
+                <img src="images/new york city.jpg" alt="New York City">
+                <div class="caption">New York City</div>
+            </div>
+            <div class="gallery-item">
+                <img src="images/rome.jpg" alt="Rome">
+                <div class="caption">Rome</div>
+            </div>
+            <div class="gallery-item">
+                <img src="images/ocean.jpg" alt="Miami">
+                <div class="caption">Miami</div>
+            </div>
+            <div class="gallery-item">
+                <img src="images/sky.jpg" alt="Reykjavik">
+                <div class="caption">Reykjavik</div>
+            </div>
+            <div class="gallery-item">
+                <img src="images/greece.jpg" alt="Athens">
+                <div class="caption">Athens</div>
+            </div>
         </div>
-        <div class="gallery-item">
-            <img src="images/japan.jpg" alt="Mountain Image 2">
-            <div class="caption">Tokyo</div>
-        </div>
-        <div class="gallery-item">
-            <img src="images/sydney.jpg" alt="Desert Image 3">
-            <div class="caption">Sydney</div>
-        </div>
-        <div class="gallery-item">
-            <img src="images/new york city.jpg" alt="Sunset Image 4">
-            <div class="caption">New York City</div>
-        </div>
-        <div class="gallery-item">
-            <img src="images/rome.jpg" alt="Tree Image 5">
-            <div class="caption">Rome</div>
-        </div>
-        <div class="gallery-item">
-            <img src="images/ocean.jpg" alt="Ocean Image 6">
-            <div class="caption">Miami</div>
-        </div>
-        <div class="gallery-item">
-            <img src="images/sky.jpg" alt="Sky Image 6">
-            <div class="caption">Reykjavik</div>
-        </div>
-        <div class="gallery-item">
-            <img src="images/greece.jpg" alt="Greece Image 6">
-            <div class="caption">Athens</div>
-        </div>
-    </div>
+    </main>
 
     <!-- Footer Section -->
-    <div class="footer">
+    <footer>
         <p>&copy; 2025 Explore the World. All Rights Reserved.</p>
-    </div>
-<script>
-    function toggleSidebar(){
-        document.getElementById("sidebar").classList.toggle("active");
-    }
-</script>
+    </footer>
+
+    <script>
+        function toggleSidebar(){
+            document.getElementById("sidebar").classList.toggle("active");
+        }
+    </script>
 </body>
 </html>
