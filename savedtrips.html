@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saved Trips | Explore the World</title>
+    <style>
+        /* General Styling */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('images/airplane.jpg') no-repeat center center/cover;
+            color: white;
+            text-align: center;
+        }
+
+        /* Header & Navigation Bar */
+        #header {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .container {
+            width: 85%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+        }
+
+        nav ul li {
+            margin-right: 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2em;
+            transition: 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #ffdd57;
+        }
+
+        /* Saved Trips Section */
+        .saved-trips-container {
+            margin-top: 100px; /* To avoid overlap with fixed header */
+            padding: 20px;
+        }
+
+        .section-title {
+            font-size: 2em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
+        }
+
+        .trip-card {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: 0.3s;
+        }
+
+        .trip-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .trip-image {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .trip-details {
+            width: 100%;
+            text-align: left;
+        }
+
+        .trip-title {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+            color: #ffdd57;
+        }
+
+        .trip-date {
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+
+        .trip-description {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .trip-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .tag {
+            background-color: #ffdd57;
+            color: #333;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+        }
+
+        .trip-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .action-btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .view-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .edit-btn {
+            background-color: #2196F3;
+            color: white;
+        }
+
+        .delete-btn {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .action-btn:hover {
+            opacity: 0.8;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            color: white;
+        }
+
+        /* Sidebar Styling */
+        #sidebar {
+            width: 250px;
+            background-color: rgba(0, 0, 0, 0.8);
+            position: fixed;
+            top: 0;
+            left: -250px;
+            height: 100%;
+            transition: left 0.3s ease;
+            z-index: 1100;
+        }
+
+        #sidebar.active {
+            left: 0;
+        }
+
+        #sidebar ul {
+            list-style-type: none;
+            padding: 20px;
+            margin: 0;
+        }
+
+        #sidebar ul li {
+            padding: 15px;
+            border-bottom: 1px solid #333;
+        }
+
+        #sidebar ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2em;
+            transition: 0.3s;
+        }
+
+        #sidebar ul li a:hover {
+            color: #ffdd57;
+        }
+
+        /* Sidebar Toggle Button */
+        .sidebar-toggle {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 30px;
+            cursor: pointer;
+            color: white;
+            z-index: 1200;
+        }
+
+        /* Add Trip Button */
+        .add-trip-btn {
+            background-color: #ffdd57;
+            color: #333;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1em;
+            cursor: pointer;
+            margin-bottom: 30px;
+            transition: 0.3s;
+        }
+
+        .add-trip-btn:hover {
+            background-color: #ffcc00;
+            transform: translateY(-2px);
+        }
+
+        /* No Trips Message */
+        .no-trips {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 10px;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <div id="header">
+        <div class="container">
+            <nav>
+                <ul>
+                    <li><a href="home" data-key="nav-home">Home</a></li>
+                    <li><a href="map" data-key="nav-destinations">Destinations</a></li>
+                    <li><a href="community" data-key="nav-community">Community</a></li>
+                    <li><a href="gallery">Gallery</a></li>
+                    <li><a href="previousd">Previous Destinations</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Sidebar Menu -->
+    <div id="sidebar">
+        <ul>
+            <li><a href="friends.html" data-key="friends">Friends</a></li>
+            <li><a href="travel-guide.html" data-key="travel-guide">Travel Guide</a></li>
+            <li><a href="translation-guide.html" data-key="translation-guide">Translation Guide</a></li>
+            <li><a href="achievements.html" data-key="Achievements">Achievements</a></li>
+            <li><a href="savedtrips.html" data-key="saved-trips">Saved Trips</a></li>
+            <li><a href="about.html" data-key="about">About</a></li>
+            <li><a href="contact.html" data-key="contact-us">Contact Us</a></li>
+        </ul>
+    </div>
+
+    <!-- Sidebar Toggle Button -->
+    <div class="sidebar-toggle" onclick="toggleSidebar()">☰</div>
+
+    <!-- Saved Trips Section -->
+    <div class="saved-trips-container">
+        <h2 class="section-title">Your Saved Trips</h2>
+        
+        <button class="add-trip-btn" onclick="openTripForm()">+ Add New Trip</button>
+
+        <!-- Trip Cards Container -->
+        <div id="tripsContainer">
+            <!-- Trip Card 1 -->
+            <div class="trip-card">
+                <img src="images/paris.jpg" alt="Paris" class="trip-image">
+                <div class="trip-details">
+                    <h3 class="trip-title">Romantic Paris Getaway</h3>
+                    <p class="trip-date">Planned for: June 15-22, 2025</p>
+                    <p class="trip-description">
+                        A week-long romantic vacation in the City of Love. Visiting the Eiffel Tower, 
+                        Louvre Museum, and enjoying authentic French cuisine at local bistros.
+                    </p>
+                    <div class="trip-tags">
+                        <span class="tag">Romantic</span>
+                        <span class="tag">City Break</span>
+                        <span class="tag">Luxury</span>
+                    </div>
+                    <div class="trip-actions">
+                        <button class="action-btn view-btn">View Details</button>
+                        <button class="action-btn edit-btn">Edit</button>
+                        <button class="action-btn delete-btn">Delete</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Trip Card 2 -->
+            <div class="trip-card">
+                <img src="images/japan.jpg" alt="Japan" class="trip-image">
+                <div class="trip-details">
+                    <h3 class="trip-title">Japanese Adventure</h3>
+                    <p class="trip-date">Planned for: September 5-20, 2025</p>
+                    <p class="trip-description">
+                        Exploring Tokyo's bustling streets, Kyoto's ancient temples, and Osaka's 
+                        food scene. Includes a day trip to Mount Fuji and a traditional ryokan stay.
+                    </p>
+                    <div class="trip-tags">
+                        <span class="tag">Adventure</span>
+                        <span class="tag">Cultural</span>
+                        <span class="tag">Foodie</span>
+                    </div>
+                    <div class="trip-actions">
+                        <button class="action-btn view-btn">View Details</button>
+                        <button class="action-btn edit-btn">Edit</button>
+                        <button class="action-btn delete-btn">Delete</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Trip Card 3 -->
+            <div class="trip-card">
+                <img src="images/beach.jpg" alt="Maldives" class="trip-image">
+                <div class="trip-details">
+                    <h3 class="trip-title">Maldives Relaxation</h3>
+                    <p class="trip-date">Planned for: December 10-17, 2025</p>
+                    <p class="trip-description">
+                        A luxurious overwater bungalow stay with private beach access, snorkeling 
+                        in crystal clear waters, and spa treatments overlooking the ocean.
+                    </p>
+                    <div class="trip-tags">
+                        <span class="tag">Relaxation</span>
+                        <span class="tag">Beach</span>
+                        <span class="tag">Luxury</span>
+                    </div>
+                    <div class="trip-actions">
+                        <button class="action-btn view-btn">View Details</button>
+                        <button class="action-btn edit-btn">Edit</button>
+                        <button class="action-btn delete-btn">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- No Trips Message (hidden by default) -->
+        <div id="noTripsMessage" class="no-trips" style="display: none;">
+            <p>You haven't saved any trips yet.</p>
+            <p>Start planning your next adventure by clicking the "Add New Trip" button above!</p>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <div class="footer">
+        <p>&copy; 2025 Explore the World. All Rights Reserved.</p>
+    </div>
+
+    <script>
+        // Toggle sidebar function
+        function toggleSidebar() {
+            document.getElementById("sidebar").classList.toggle("active");
+        }
+
+        // Function to open trip form (would be implemented in a real app)
+        function openTripForm() {
+            alert("In a complete application, this would open a form to add a new trip.");
+            // This would typically show a modal or redirect to a trip creation page
+        }
+
+        // Sample function to delete a trip
+        document.querySelectorAll('.delete-btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                if (confirm("Are you sure you want to delete this trip?")) {
+                    const tripCard = e.target.closest('.trip-card');
+                    tripCard.remove();
+                    
+                    // Show "no trips" message if all trips are deleted
+                    if (document.querySelectorAll('.trip-card').length === 0) {
+                        document.getElementById('noTripsMessage').style.display = 'block';
+                    }
+                }
+            });
+        });
+
+        // Sample function to edit a trip
+        document.querySelectorAll('.edit-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                alert("In a complete application, this would open an edit form for the trip.");
+            });
+        });
+
+        // Sample function to view trip details
+        document.querySelectorAll('.view-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                alert("In a complete application, this would show detailed information about the trip.");
+            });
+        });
+    </script>
+</body>
+</html>
