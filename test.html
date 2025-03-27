@@ -16,6 +16,7 @@
             height: 500px;
             width: 100%;
             border: 2px solid #ccc;
+            display: block; /* Ensure it's visible */
         }
     </style>
 </head>
@@ -72,63 +73,17 @@
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
     <script>
-        var map = L.map('map').setView([37.7749, -122.4194], 5);
-        
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
-        }).addTo(map);
-        
-        var userMarker;
-        var routeControl;
-
-        // Get User Location
-        function locateUser() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(position => {
-                    var lat = position.coords.latitude;
-                    var lon = position.coords.longitude;
-                    
-                    if (userMarker) map.removeLayer(userMarker);
-                    userMarker = L.marker([lat, lon]).addTo(map).bindPopup("You are here").openPopup();
-                    map.setView([lat, lon], 12);
-                });
-            }
-        }
-        locateUser();
-        
-        function searchPlaces() {
-            var query = document.getElementById('search-box').value;
-            var url = `https://nominatim.openstreetmap.org/search?format=json&q=${query}`;
+        document.addEventListener("DOMContentLoaded", function() {
+            var map = L.map('map').setView([37.7749, -122.4194], 5);
             
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.length > 0) {
-                        var place = data[0];
-                        var lat = parseFloat(place.lat);
-                        var lon = parseFloat(place.lon);
-                        
-                        var marker = L.marker([lat, lon]).addTo(map)
-                            .bindPopup(`<b>${place.display_name}</b>`)
-                            .openPopup();
-                        
-                        map.setView([lat, lon], 14);
-
-                        if (userMarker) {
-                            if (routeControl) map.removeControl(routeControl);
-                            routeControl = L.Routing.control({
-                                waypoints: [
-                                    L.latLng(userMarker.getLatLng().lat, userMarker.getLatLng().lng),
-                                    L.latLng(lat, lon)
-                                ],
-                                routeWhileDragging: true
-                            }).addTo(map);
-                        }
-                    } else {
-                        alert('Location not found');
-                    }
-                });
-        }
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+            
+            setTimeout(() => {
+                map.invalidateSize();
+            }, 500);
+        });
     </script>
     
     <!-- Footer -->
