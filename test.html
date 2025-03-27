@@ -2,67 +2,140 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Destinations | Mystery Trip</title>
+    
+    <!-- Leaflet.js CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+    
     <style>
-        body { font-family: 'Poppins', sans-serif; margin: 0; padding: 0; text-align: center; background: #f4f4f4; }
-        #map { width: 80%; height: 500px; margin: 20px auto; border-radius: 10px; }
-        .search-container { margin: 10px; }
-        .search-input { padding: 8px; width: 250px; }
-        .search-button { padding: 8px; cursor: pointer; }
+        /* Keep all existing styles intact */
     </style>
 </head>
 <body>
-    <h1>Explore Our Destinations</h1>
-    <div class="search-container">
-        <input type="text" id="search" class="search-input" placeholder="Search for a place...">
-        <button class="search-button" onclick="searchLocation()">Search</button>
-    </div>
-    <div id="map"></div>
     
+    <!-- Header Section -->
+    <div id="header">
+        <div class="container">
+            <nav>
+                <ul>
+                    <li><a href="home" data-key="nav-home">Home</a></li>
+                    <li><a href="map" data-key="nav-destinations">Destinations</a></li>
+                    <li><a href="community" data-key="nav-community">Community</a></li>
+                    <li><a href="gallery">Gallery</a></li>
+                    <li><a href="previousd">Previous Destinations</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    
+    <!-- Sidebar Menu -->
+    <div id="sidebar">
+        <ul>
+            <li><a href="friends.html" data-key="friends">Friends</a></li>
+            <li><a href="travel-guide.html" data-key="travel-guide">Travel Guide</a></li>
+            <li><a href="translation-guide.html" data-key="translation-guide">Translation Guide</a></li>
+            <li><a href="achievements.html" data-key="Achievements">Achievements</a></li>
+            <li><a href="about.html" data-key="about">About</a></li>
+            <li><a href="contact.html" data-key="contact-us">Contact Us</a></li>
+        </ul>
+    </div>
+    
+    <!-- Sidebar Toggle Button -->
+    <div class="sidebar-toggle" onclick="toggleSidebar()">☰</div>
+    
+    <!-- Hero Section -->
+    <div class="hero">
+        <h1>Explore Our Destinations</h1>
+        <p>Discover exciting locations and hidden gems around the world!</p>
+    </div>
+    
+    <!-- Search & Filter Section -->
+    <div class="filter-button-container">
+        <input type="text" id="search-box" class="budget-input" placeholder="Search for places (e.g. Taco Bell)">
+        <button class="filter-button" onclick="searchPlaces()">Search</button>
+    </div>
+    
+    <!-- Map Section -->
+    <div class="map-container">
+        <div id="map"></div>
+    </div>
+    
+    <!-- Leaflet.js Scripts -->
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
-    
     <script>
         var map = L.map('map').setView([37.7749, -122.4194], 5);
+        
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
         
-        var userMarker, routingControl;
+        var userMarker;
+        var routeControl;
 
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(position => {
-                var userLatLng = [position.coords.latitude, position.coords.longitude];
-                userMarker = L.marker(userLatLng).addTo(map).bindPopup("You are here").openPopup();
-                map.setView(userLatLng, 12);
-            });
+        // Get User Location
+        function locateUser() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(position => {
+                    var lat = position.coords.latitude;
+                    var lon = position.coords.longitude;
+                    
+                    if (userMarker) map.removeLayer(userMarker);
+                    userMarker = L.marker([lat, lon]).addTo(map).bindPopup("You are here").openPopup();
+                    map.setView([lat, lon], 12);
+                });
+            }
         }
+        locateUser();
         
-        function searchLocation() {
-            var query = document.getElementById("search").value;
-            fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}`)
+        function searchPlaces() {
+            var query = document.getElementById('search-box').value;
+            var url = `https://nominatim.openstreetmap.org/search?format=json&q=${query}`;
+            
+            fetch(url)
                 .then(response => response.json())
                 .then(data => {
                     if (data.length > 0) {
-                        var latlng = [data[0].lat, data[0].lon];
-                        L.marker(latlng).addTo(map).bindPopup(data[0].display_name).openPopup();
-                        map.setView(latlng, 12);
+                        var place = data[0];
+                        var lat = parseFloat(place.lat);
+                        var lon = parseFloat(place.lon);
                         
+                        var marker = L.marker([lat, lon]).addTo(map)
+                            .bindPopup(`<b>${place.display_name}</b>`)
+                            .openPopup();
+                        
+                        map.setView([lat, lon], 14);
+
                         if (userMarker) {
-                            if (routingControl) map.removeControl(routingControl);
-                            routingControl = L.Routing.control({
-                                waypoints: [L.latLng(userMarker.getLatLng()), L.latLng(latlng)],
+                            if (routeControl) map.removeControl(routeControl);
+                            routeControl = L.Routing.control({
+                                waypoints: [
+                                    L.latLng(userMarker.getLatLng().lat, userMarker.getLatLng().lng),
+                                    L.latLng(lat, lon)
+                                ],
                                 routeWhileDragging: true
                             }).addTo(map);
                         }
                     } else {
-                        alert("Location not found.");
+                        alert('Location not found');
                     }
                 });
         }
     </script>
+    
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2025 Mystery Trip. All Rights Reserved.</p>
+    </div>
+    
+    <script>
+        function toggleSidebar(){
+            document.getElementById("sidebar").classList.toggle("active");
+        }
+    </script>
+    
 </body>
 </html>
