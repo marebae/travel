@@ -1,266 +1,271 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gallery | Explore the World</title>
-    <style>
-        /* CSS Variables */
-        :root {
-            --main-bg-color: rgba(0, 0, 0, 0.7);
-            --hover-color: #ffdd57;
-            --text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery | Explore the World</title>
+  <style>
+    :root {
+      --main-bg-color: rgba(0, 0, 0, 0.7);
+      --hover-color: #ffdd57;
+      --text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
+    }
 
-        /* General Styling */
-        body {
-            font-family: 'Poppins', sans-serif;
-            margin: 0;
-            padding: 0;
-            background: url('airplane.jpg') no-repeat center center/cover;
-            color: white;
-            text-align: center;
-        }
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: url('airplane.jpg') no-repeat center center/cover;
+      color: white;
+      text-align: center;
+    }
 
-        /* Header & Navigation Bar */
-        header {
-            background: var(--main-bg-color);
-            padding: 15px 0;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            left: 0;
-            z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    header {
+      background: var(--main-bg-color);
+      padding: 15px 0;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-        .container {
-            width: 85%;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    .container {
+      width: 85%;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-        nav ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-            display: flex;
-        }
+    nav ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+    }
 
-        nav ul li {
-            margin-right: 20px;
-        }
+    nav ul li {
+      margin-right: 20px;
+    }
 
-        nav ul li a {
-            color: white;
-            text-decoration: none;
-            font-size: 1.2em;
-            transition: 0.3s;
-        }
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-size: 1.2em;
+      transition: 0.3s;
+    }
 
-        nav ul li a:hover {
-            color: var(--hover-color);
-        }
+    nav ul li a:hover {
+      color: var(--hover-color);
+    }
 
-        /* Gallery Section */
-        main {
-            padding: 40px 5%;
-            margin-top: 100px; /* To avoid overlap with fixed header */
-        }
+    main {
+      padding: 40px 5%;
+      margin-top: 100px;
+    }
 
-        .gallery-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 15px;
-        }
+    .gallery-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 15px;
+    }
 
-        .gallery-item {
-            position: relative;
-            overflow: hidden;
-            border-radius: 10px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
-            cursor: pointer;
-            transition: 0.3s;
-        }
+    .gallery-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: 10px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+      transition: 0.3s;
+    }
 
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: 0.3s;
-            border-radius: 10px;
-        }
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: 0.3s;
+      border-radius: 10px;
+    }
 
-        .gallery-item:hover img {
-            transform: scale(1.1);
-        }
+    .gallery-item:hover img {
+      transform: scale(1.1);
+    }
 
-        .gallery-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.3);
-        }
+    .gallery-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.3);
+    }
 
-        .gallery-item .caption {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: white;
-            font-size: 1.5em;
-            text-shadow: var(--text-shadow);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
+    .gallery-item .caption {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 1.5em;
+      text-shadow: var(--text-shadow);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
 
-        .gallery-item:hover .caption {
-            opacity: 1;
-        }
+    .gallery-item:hover .caption {
+      opacity: 1;
+    }
 
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 20px;
-            background: var(--main-bg-color);
-            position: fixed;
-            width: 100%;
-            bottom: 0;
-            color: white;
-        }
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: var(--main-bg-color);
+      position: fixed;
+      width: 100%;
+      bottom: 0;
+      color: white;
+    }
 
-        /* Sidebar Styling */
-        #sidebar {
-            width: 250px;
-            background-color: var(--main-bg-color);
-            position: fixed;
-            top: 0;
-            left: -250px;
-            height: 100%;
-            transition: left 0.3s ease;
-            z-index: 1100; /* Make sure the sidebar is above other content */
-        }
+    #sidebar {
+      width: 250px;
+      background-color: var(--main-bg-color);
+      position: fixed;
+      top: 0;
+      left: -250px;
+      height: 100%;
+      transition: left 0.3s ease;
+      z-index: 1100;
+    }
 
-        #sidebar.active {
-            left: 0;
-        }
+    #sidebar.active {
+      left: 0;
+    }
 
-        #sidebar ul {
-            list-style-type: none;
-            padding: 20px;
-            margin: 0;
-        }
+    #sidebar ul {
+      list-style-type: none;
+      padding: 20px;
+      margin: 0;
+    }
 
-        #sidebar ul li {
-            padding: 15px;
-            border-bottom: 1px solid #333;
-        }
+    #sidebar ul li {
+      padding: 15px;
+      border-bottom: 1px solid #333;
+    }
 
-        #sidebar ul li a {
-            color: white;
-            text-decoration: none;
-            font-size: 1.2em;
-            transition: 0.3s;
-        }
+    #sidebar ul li a {
+      color: white;
+      text-decoration: none;
+      font-size: 1.2em;
+      transition: 0.3s;
+    }
 
-        #sidebar ul li a:hover {
-            color: var(--hover-color);
-        }
+    #sidebar ul li a:hover {
+      color: var(--hover-color);
+    }
 
-        /* Sidebar Toggle Button */
-        .sidebar-toggle {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            font-size: 30px;
-            cursor: pointer;
-            color: white;
-            z-index: 1200; /* Ensure the button is above everything else */
-        }
-    </style>
+    .sidebar-toggle {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 30px;
+      cursor: pointer;
+      color: white;
+      z-index: 1200;
+    }
+  </style>
 </head>
 <body>
 
-    <!-- Header Section -->
-    <header>
-        <div class="container">
-            <nav>
-                 <ul>
-                    <li><a href="home" data-key="nav-home">Home</a></li>
-                    <li><a href="map" data-key="nav-destinations">Destinations</a></li>
-                    <li><a href="community" data-key="nav-community">Community</a></li>
-                    <li><a href="gallery">Gallery</a></li>
-                    <li><a href="previousd">Previous Destinations</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-
-    <!-- Sidebar Menu -->
-    <div id="sidebar">
+  <header>
+    <div class="container">
+      <nav>
         <ul>
-            <li><a href="friends.html" data-key="friends">Friends</a></li>
-            <li><a href="travel-guide.html" data-key="travel-guide">Travel Guide</a></li>
-            <li><a href="translation-guide.html" data-key="translation-guide">Translation Guide</a></li>
-            <li><a href="achievements.html" data-key="Achievements">Achievements</a></li>
-            <li><a href="about.html" data-key="about">About</a></li> <!-- About link in the sidebar -->
-            <li><a href="contact-us.html" data-key="contact-us">Contact Us</a></li> <!-- Contact Us link in the sidebar -->
-            <li><a href="savedtrips.html" data-key="saved">Saved Trips</a></li>
+          <li><a href="home" data-key="nav-home">Home</a></li>
+          <li><a href="map" data-key="nav-destinations">Destinations</a></li>
+          <li><a href="community" data-key="nav-community">Community</a></li>
+          <li><a href="gallery">Gallery</a></li>
+          <li><a href="previousd">Previous Destinations</a></li>
         </ul>
+      </nav>
     </div>
+  </header>
 
-    <!-- Sidebar Toggle Button -->
-    <div class="sidebar-toggle" onclick="toggleSidebar()">☰</div>
+  <div id="sidebar">
+    <ul>
+      <li><a href="friends.html" data-key="friends">Friends</a></li>
+      <li><a href="travel-guide.html" data-key="travel-guide">Travel Guide</a></li>
+      <li><a href="translation-guide.html" data-key="translation-guide">Translation Guide</a></li>
+      <li><a href="achievements.html" data-key="Achievements">Achievements</a></li>
+      <li><a href="about.html" data-key="about">About</a></li>
+      <li><a href="contact-us.html" data-key="contact-us">Contact Us</a></li>
+      <li><a href="savedtrips.html" data-key="saved">Saved Trips</a></li>
+    </ul>
+  </div>
 
-    <!-- Gallery Section -->
-    <main>
-        <div class="gallery-container">
-            <div class="gallery-item">
-                <img src="images/paris.jpg" alt="Paris">
-                <div class="caption">Paris</div>
-            </div>
-            <div class="gallery-item">
-                <img src="images/japan.jpg" alt="Tokyo">
-                <div class="caption">Tokyo</div>
-            </div>
-            <div class="gallery-item">
-                <img src="images/sydney.jpg" alt="Sydney">
-                <div class="caption">Sydney</div>
-            </div>
-            <div class="gallery-item">
-                <img src="images/new york city.jpg" alt="New York City">
-                <div class="caption">New York City</div>
-            </div>
-            <div class="gallery-item">
-                <img src="images/rome.jpg" alt="Rome">
-                <div class="caption">Rome</div>
-            </div>
-            <div class="gallery-item">
-                <img src="images/ocean.jpg" alt="Miami">
-                <div class="caption">Miami</div>
-            </div>
-            <div class="gallery-item">
-                <img src="images/sky.jpg" alt="Reykjavik">
-                <div class="caption">Reykjavik</div>
-            </div>
-            <div class="gallery-item">
-                <img src="images/greece.jpg" alt="Athens">
-                <div class="caption">Athens</div>
-            </div>
+  <div class="sidebar-toggle" onclick="toggleSidebar()">☰</div>
+
+  <main>
+    <div class="gallery-container">
+      <a href="gallery/paris.html">
+        <div class="gallery-item">
+          <img src="images/paris.jpg" alt="Paris">
+          <div class="caption">Paris</div>
         </div>
-    </main>
+      </a>
+      <a href="gallery/tokyo.html">
+        <div class="gallery-item">
+          <img src="images/japan.jpg" alt="Tokyo">
+          <div class="caption">Tokyo</div>
+        </div>
+      </a>
+      <a href="gallery/sydney.html">
+        <div class="gallery-item">
+          <img src="images/sydney.jpg" alt="Sydney">
+          <div class="caption">Sydney</div>
+        </div>
+      </a>
+      <a href="gallery/newyorkcity.html">
+        <div class="gallery-item">
+          <img src="images/new york city.jpg" alt="New York City">
+          <div class="caption">New York City</div>
+        </div>
+      </a>
+      <a href="gallery/rome.html">
+        <div class="gallery-item">
+          <img src="images/rome.jpg" alt="Rome">
+          <div class="caption">Rome</div>
+        </div>
+      </a>
+      <a href="gallery/miami.html">
+        <div class="gallery-item">
+          <img src="images/ocean.jpg" alt="Miami">
+          <div class="caption">Miami</div>
+        </div>
+      </a>
+      <a href="gallery/reykjavik.html">
+        <div class="gallery-item">
+          <img src="images/sky.jpg" alt="Reykjavik">
+          <div class="caption">Reykjavik</div>
+        </div>
+      </a>
+      <a href="gallery/athens.html">
+        <div class="gallery-item">
+          <img src="images/greece.jpg" alt="Athens">
+          <div class="caption">Athens</div>
+        </div>
+      </a>
+    </div>
+  </main>
 
-    <!-- Footer Section -->
-    <footer>
-        <p>&copy; 2025 Explore the World. All Rights Reserved.</p>
-    </footer>
+  <footer>
+    <p>&copy; 2025 Explore the World. All Rights Reserved.</p>
+  </footer>
 
-    <script>
-        function toggleSidebar(){
-            document.getElementById("sidebar").classList.toggle("active");
-        }
-    </script>
+  <script>
+    function toggleSidebar(){
+      document.getElementById("sidebar").classList.toggle("active");
+    }
+  </script>
+
 </body>
 </html>
