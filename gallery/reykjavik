@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reykjavik | Explore the World</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: url('../images/sky.jpg') no-repeat center center/cover;
+      color: white;
+      text-align: center;
+      position: relative;
+      min-height: 100vh;
+    }
+
+    .background-tint {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 1;
+    }
+
+    header {
+      background: rgba(0, 0, 0, 0.7);
+      padding: 15px 0;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+    }
+
+    .container {
+      width: 85%;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    nav ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+    }
+
+    nav ul li {
+      margin-right: 20px;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-size: 1.2em;
+      transition: 0.3s;
+    }
+
+    nav ul li a:hover {
+      color: #ffdd57;
+    }
+
+    .content {
+      margin-top: 120px;
+      padding: 20px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .content h1 {
+      font-size: 3em;
+      color: #ffdd57;
+      margin-bottom: 10px;
+    }
+
+    .content p {
+      font-size: 1.2em;
+      max-width: 800px;
+      margin: 0 auto 20px;
+    }
+
+    ul.activities {
+      list-style-type: none;
+      padding: 0;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    ul.activities li {
+      background: rgba(255, 255, 255, 0.8);
+      color: #333;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+    }
+
+    a.back-link {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+
+    a.back-link:hover {
+      background-color: #0056b3;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.7);
+      position: fixed;
+      width: 100%;
+      bottom: 0;
+      color: white;
+      z-index: 2;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="background-tint"></div>
+
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <nav>
+        <ul>
+          <li><a href="../home">Home</a></li>
+          <li><a href="../map">Destinations</a></li>
+          <li><a href="../community">Community</a></li>
+          <li><a href="../gallery">Gallery</a></li>
+          <li><a href="../previousd">Previous Destinations</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Content -->
+  <div class="content">
+    <h1>Welcome to Reykjavik</h1>
+    <p>Iceland’s quirky capital is your gateway to glaciers, geysers, and the Northern Lights.</p>
+
+    <h2>Things to Do:</h2>
+    <ul class="activities">
+      <li>Relax in the famous Blue Lagoon geothermal spa</li>
+      <li>Chase the Northern Lights in the countryside</li>
+      <li>Explore Hallgrímskirkja Church and take in city views</li>
+      <li>Visit local museums and learn about Viking history</li>
+      <li>Go whale watching off the Reykjavik coast</li>
+    </ul>
+
+    <a class="back-link" href="../gallery.html">← Back to Gallery</a>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Explore the World. All Rights Reserved.</p>
+  </footer>
+</body>
+</html>
