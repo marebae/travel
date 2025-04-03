@@ -116,40 +116,6 @@
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
         }
 
-        /* Filter Button Container */
-        .filter-button-container {
-            text-align: center;
-            margin: 15px;
-            display: flex;
-            justify-content: center; /* Centers the buttons horizontally */
-            align-items: center; /* Aligns items vertically */
-        }
-
-        .filter-button {
-            background: #0077b6;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            cursor: pointer;
-            font-size: 1em;
-            border-radius: 5px;
-            margin-right: 15px; /* Adds space between the buttons */
-        }
-
-        .filter-button:hover {
-            background: #005f8a;
-        }
-
-        /* Budget Input Box */
-        .budget-input {
-            background: white;
-            border: 1px solid #ccc;
-            padding: 8px;
-            font-size: 1em;
-            border-radius: 5px;
-            width: 150px;
-        }
-
         /* Footer */
         .footer {
             text-align: center;
@@ -170,7 +136,7 @@
             left: -250px;
             height: 100%;
             transition: left 0.3s ease;
-            z-index: 1100; /* Make sure the sidebar is above other content */
+            z-index: 1100;
         }
 
         #sidebar.active {
@@ -207,7 +173,7 @@
             font-size: 30px;
             cursor: pointer;
             color: white;
-            z-index: 1200; /* Ensure the button is above everything else */
+            z-index: 1200;
         }
     </style>
 </head>
@@ -235,9 +201,8 @@
             <li><a href="travel-guide.html" data-key="travel-guide">Travel Guide</a></li>
             <li><a href="translation-guide.html" data-key="translation-guide">Translation Guide</a></li>
             <li><a href="achievements.html" data-key="Achievements">Achievements</a></li>
-            <li><a href="about.html" data-key="about">About</a></li> <!-- About link in the sidebar -->
-            <li><a href="contact.html" data-key="contact-us">Contact Us</a></li> <!-- Contact Us link in the sidebar -->
-            <li><a href="savedtrips.html" data-key="saved">Saved Trips</a></li>
+            <li><a href="about.html" data-key="about">About</a></li>
+            <li><a href="contact.html" data-key="contact-us">Contact Us</a></li>
         </ul>
     </div>
 
@@ -248,12 +213,6 @@
     <div class="hero">
         <h1>Explore Our Destinations</h1>
         <p>Discover exciting locations and hidden gems around the world!</p>
-    </div>
-
-    <!-- Filter Button (Above the Map) -->
-    <div class="filter-button-container">
-        <button class="filter-button">&#9881; Filters</button>
-        <input type="text" class="budget-input" placeholder="Budget Box Lol">
     </div>
 
     <!-- Map Section -->
@@ -272,7 +231,7 @@
 
     <script>
         // Initialize the map and set view to a default location
-        var map = L.map('map').setView([37.7749, -122.4194], 5); // San Francisco, Zoom level 5
+        var map = L.map('map').setView([37.7749, -122.4194], 5);
 
         // Add OpenStreetMap Tile Layer
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
