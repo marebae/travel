@@ -11,7 +11,7 @@
     <!-- Leaflet Routing Machine CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
     <!-- Photon Autocomplete CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.photon/leaflet.photon.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-photon/1.0.0/leaflet.photon.min.css" />
 
     <style>
         /* General Styling */
@@ -248,7 +248,7 @@
     <!-- Leaflet Routing Machine -->
     <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.min.js"></script>
     <!-- Photon Autocomplete -->
-    <script src="https://unpkg.com/leaflet.photon/leaflet.photon.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-photon/1.0.0/leaflet.photon.min.js"></script>
 
     <script>
         // Initialize the map
@@ -300,7 +300,7 @@
                     routeWhileDragging: true
                 }).addTo(map);
             } else {
-                routingControl.setWaypoints([
+                routingControl.setWaypoints([ 
                     routingControl.getWaypoints()[0].latLng,
                     e.latlng
                 ]);
