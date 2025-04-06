@@ -266,6 +266,11 @@
                 currentLocationMarker = null;
             }
         }
+
+        // Allow user to click to add current location
+        map.on('click', function(e) {
+            setLocation('current'); // Set current location
+        });
     </script>
 </body>
 </html>
