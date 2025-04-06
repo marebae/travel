@@ -188,6 +188,11 @@
             padding: 10px !important;
             font-size: 14px;
         }
+
+        .delete-btn {
+            color: red;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -291,7 +296,7 @@
             var marker = L.marker(loc.coords, {
                 title: loc.name
             })
-                .bindPopup(`<b>${loc.name}</b><br>Region: ${loc.region}<br>Cost: $${loc.cost}`)
+                .bindPopup(`<b>${loc.name}</b><br>Region: ${loc.region}<br>Cost: $${loc.cost}<br><span class="delete-btn" onclick="removeMarker(event)">Delete</span>`)
                 .addTo(map);
 
             markers.push(marker);
@@ -305,8 +310,14 @@
         // Function to add a new marker on click
         map.on('click', function(e) {
             var newMarker = L.marker(e.latlng).addTo(map);
-            newMarker.bindPopup("<b>New Marker</b>").openPopup();
+            newMarker.bindPopup("<b>New Marker</b><br><span class='delete-btn' onclick='removeMarker(event)'>Delete</span>").openPopup();
         });
+
+        // Remove marker
+        function removeMarker(e) {
+            var marker = e.target;
+            map.removeLayer(marker);
+        }
 
         // Routing between Current Location and Destination
         function routeBetweenMarkers() {
