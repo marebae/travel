@@ -179,6 +179,30 @@
             color: white;
             z-index: 1200;
         }
+
+        /* Styling for Delete Button */
+        .delete-button {
+            background-color: #ff4d4d;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+
+        .delete-button:hover {
+            background-color: #ff1a1a;
+        }
+
+        /* Routing Directions */
+        .leaflet-routing-container {
+            background-color: rgba(0, 0, 0, 0.7) !important;
+            color: white !important;
+            border-radius: 10px !important;
+            padding: 10px !important;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
@@ -276,13 +300,24 @@
         // Function to add a marker
         function addMarker(loc) {
             var marker = L.marker(loc.coords)
-                .bindPopup(`<b>${loc.name}</b><br>Region: ${loc.region}<br>Est. Cost: $${loc.cost}`)
+                .bindPopup(`<b>${loc.name}</b><br>Region: ${loc.region}<br>Est. Cost: $${loc.cost}<br><button class="delete-button" onclick="deleteMarker(${loc.coords[0]}, ${loc.coords[1]})">Delete</button>`)
                 .addTo(map);
             markers.push({ marker: marker, ...loc });
         }
 
         // Add all markers initially
         locations.forEach(addMarker);
+
+        // Function to delete a marker
+        function deleteMarker(lat, lon) {
+            markers = markers.filter(function (m) {
+                if (m.coords[0] === lat && m.coords[1] === lon) {
+                    map.removeLayer(m.marker); // Remove marker from map
+                    return false;
+                }
+                return true;
+            });
+        }
 
         // Routing Machine Setup
         var routingControl;
@@ -321,27 +356,16 @@
 
             // Remove all current markers
             markers.forEach(m => map.removeLayer(m.marker));
-            markers = [];
 
-            // Re-add markers that match filter
-            locations.forEach(loc => {
-                if ((selectedRegion === "" || loc.region === selectedRegion) &&
-                    loc.cost <= budget) {
-                    addMarker(loc);
-                }
+            // Filter locations based on user input
+            var filteredLocations = locations.filter(function (loc) {
+                return (selectedRegion === '' || loc.region === selectedRegion) && loc.cost <= budget;
             });
+
+            // Add filtered markers back to the map
+            filteredLocations.forEach(addMarker);
         }
     </script>
 
-    <!-- Footer -->
-    <div class="footer">
-        <p>&copy; 2025 Mystery Trip. All Rights Reserved.</p>
-    </div>
-
-    <script>
-        function toggleSidebar(){
-            document.getElementById("sidebar").classList.toggle("active");
-        }
-    </script>
 </body>
 </html>
