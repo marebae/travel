@@ -10,8 +10,8 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <!-- Leaflet Routing Machine CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
-    <!-- Photon Autocomplete CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-photon/1.0.0/leaflet.photon.min.css" />
+    <!-- Leaflet Search Plugin CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-search/dist/leaflet-search.min.css" />
 
     <style>
         /* General Styling */
@@ -247,8 +247,8 @@
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <!-- Leaflet Routing Machine -->
     <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.min.js"></script>
-    <!-- Photon Autocomplete -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-photon/1.0.0/leaflet.photon.min.js"></script>
+    <!-- Leaflet Search Plugin -->
+    <script src="https://unpkg.com/leaflet-search/dist/leaflet-search.min.js"></script>
 
     <script>
         // Initialize the map
@@ -258,9 +258,6 @@
         L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
             attribution: '&copy; <a href="https://carto.com/">CARTO</a> contributors'
         }).addTo(map);
-
-        // Add Photon autocomplete to search
-        var control = L.control.photon().addTo(map);
 
         // Destination Data (with regions + budget for filtering)
         var locations = [
@@ -306,6 +303,16 @@
                 ]);
             }
         });
+
+        // Initialize Leaflet Search control
+        var searchControl = new L.Control.Search({
+            layer: L.layerGroup(markers.map(m => m.marker)),
+            initial: false,
+            zoom: 12,
+            marker: false,
+            position: 'topleft'
+        });
+        map.addControl(searchControl);
 
         // Filter destinations
         function applyFilters() {
