@@ -188,11 +188,6 @@
             padding: 10px !important;
             font-size: 14px;
         }
-
-        .delete-btn {
-            color: red;
-            cursor: pointer;
-        }
     </style>
 </head>
 <body>
@@ -277,7 +272,18 @@
         var currentLocationMarker;
         var destinationMarker;
 
-        // Destination Data (with regions + budget for filtering)
+        // Function to add a marker
+        function addMarker(loc) {
+            var marker = L.marker(loc.coords, {
+                title: loc.name
+            })
+                .bindPopup(`<b>${loc.name}</b><br>Region: ${loc.region}<br>Cost: $${loc.cost}`)
+                .addTo(map);
+
+            return marker;
+        }
+
+        // Add initial markers
         var locations = [
             { coords: [40.7128, -74.0060], name: "New York City", region: "North America", cost: 500 },
             { coords: [34.0522, -118.2437], name: "Los Angeles", region: "North America", cost: 450 },
@@ -289,34 +295,27 @@
             { coords: [37.5665, 126.9780], name: "Seoul", region: "Asia", cost: 800 }
         ];
 
-        var markers = [];
-
-        // Function to add a marker
-        function addMarker(loc) {
-            var marker = L.marker(loc.coords, {
-                title: loc.name
-            })
-                .bindPopup(`<b>${loc.name}</b><br>Region: ${loc.region}<br>Cost: $${loc.cost}<br><span class="delete-btn" onclick="removeMarker(event)">Delete</span>`)
-                .addTo(map);
-
-            markers.push(marker);
-
-            return marker;
-        }
-
-        // Add initial markers
         locations.forEach(addMarker);
 
-        // Function to add a new marker on click
-        map.on('click', function(e) {
-            var newMarker = L.marker(e.latlng).addTo(map);
-            newMarker.bindPopup("<b>New Marker</b><br><span class='delete-btn' onclick='removeMarker(event)'>Delete</span>").openPopup();
-        });
-
-        // Remove marker
-        function removeMarker(e) {
-            var marker = e.target;
-            map.removeLayer(marker);
+        // Function to set current location and destination
+        function setLocation(type) {
+            map.on('click', function(e) {
+                var latlng = e.latlng;
+                if (type === 'current') {
+                    if (currentLocationMarker) {
+                        currentLocationMarker.setLatLng(latlng);
+                    } else {
+                        currentLocationMarker = L.marker(latlng).addTo(map).bindPopup("Current Location");
+                    }
+                } else if (type === 'destination') {
+                    if (destinationMarker) {
+                        destinationMarker.setLatLng(latlng);
+                    } else {
+                        destinationMarker = L.marker(latlng).addTo(map).bindPopup("Destination");
+                    }
+                }
+                routeBetweenMarkers();
+            });
         }
 
         // Routing between Current Location and Destination
@@ -337,25 +336,17 @@
             var selectedRegion = document.getElementById("regionFilter").value;
             var budget = document.getElementById("budgetFilter").value;
 
-            // Clear all existing markers
-            markers.forEach(function (m) {
-                map.removeLayer(m);
-            });
-
-            markers = [];
-
             // Filter locations based on user input
-            var filteredLocations = locations.filter(function (loc) {
-                return (selectedRegion === '' || loc.region === selectedRegion) && loc.cost <= budget;
+            locations.forEach(function (loc) {
+                if ((selectedRegion === '' || loc.region === selectedRegion) && loc.cost <= budget) {
+                    addMarker(loc);
+                }
             });
-
-            // Add filtered markers back to the map
-            filteredLocations.forEach(addMarker);
         }
 
         // Leaflet Search Integration
         var searchControl = new L.Control.Search({
-            layer: L.layerGroup(markers.map(m => m)),
+            layer: L.layerGroup(locations.map(function(loc) { return L.marker(loc.coords, { title: loc.name }) })),
             initial: false,
             zoom: 12,
             marker: false
