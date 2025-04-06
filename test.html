@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Destinations | Mystery Trip</title>
-    
+
     <!-- Leaflet.js CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <!-- Leaflet Routing Machine CSS -->
@@ -283,6 +283,10 @@
             attribution: '&copy; <a href="https://carto.com/">CARTO</a> contributors'
         }).addTo(map);
 
+        // Current Location and Destination Markers
+        var currentLocationMarker;
+        var destinationMarker;
+
         // Destination Data (with regions + budget for filtering)
         var locations = [
             { coords: [40.7128, -74.0060], name: "New York City", region: "North America", cost: 500 },
@@ -302,46 +306,31 @@
             var marker = L.marker(loc.coords, {
                 title: loc.name
             })
-                .bindPopup(`<b>${loc.name}</b><br>Region: ${loc.region}<br>Est. Cost: $${loc.cost}<br><button class="delete-button" onclick="deleteMarker(${loc.coords[0]}, ${loc.coords[1]})">Delete</button>`)
+                .bindPopup(`<b>${loc.name}</b><br>Region: ${loc.region}<br>Cost: $${loc.cost}`)
                 .addTo(map);
-            markers.push({ marker: marker, ...loc });
+
+            markers.push(marker);
+
+            return marker;
         }
 
-        // Add all markers initially
+        // Add initial markers
         locations.forEach(addMarker);
 
-        // Function to delete a marker
-        function deleteMarker(lat, lon) {
-            markers = markers.filter(function (m) {
-                if (m.coords[0] === lat && m.coords[1] === lon) {
-                    map.removeLayer(m.marker); // Remove marker from map
-                    return false;
-                }
-                return true;
-            });
+        // Delete Marker
+        function deleteMarker(marker) {
+            map.removeLayer(marker);
+            markers = markers.filter(m => m !== marker);  // Remove marker from array
         }
 
-        // Routing Machine Setup
-        var routingControl;
-
-        map.on('click', function (e) {
-            if (!routingControl) {
-                routingControl = L.Routing.control({
-                    waypoints: [L.latLng(e.latlng)]
-                }).addTo(map);
-            } else {
-                routingControl.spliceWaypoints(routingControl.getWaypoints().length, 1, e.latlng);
-            }
-        });
-
-        // Filter Locations Based on Region & Budget
+        // Apply Filters
         function applyFilters() {
             var selectedRegion = document.getElementById("regionFilter").value;
             var budget = document.getElementById("budgetFilter").value;
 
             // Clear all existing markers
             markers.forEach(function (m) {
-                map.removeLayer(m.marker);
+                map.removeLayer(m);
             });
 
             markers = [];
@@ -357,13 +346,14 @@
 
         // Leaflet Search Integration
         var searchControl = new L.Control.Search({
-            layer: L.layerGroup(markers.map(m => m.marker)),
+            layer: L.layerGroup(markers.map(m => m)),
             initial: false,
             zoom: 12,
             marker: false
         });
 
         searchControl.addTo(map);
+
     </script>
 </body>
 </html>
