@@ -299,7 +299,9 @@
 
         // Function to add a marker
         function addMarker(loc) {
-            var marker = L.marker(loc.coords)
+            var marker = L.marker(loc.coords, {
+                title: loc.name
+            })
                 .bindPopup(`<b>${loc.name}</b><br>Region: ${loc.region}<br>Est. Cost: $${loc.cost}<br><button class="delete-button" onclick="deleteMarker(${loc.coords[0]}, ${loc.coords[1]})">Delete</button>`)
                 .addTo(map);
             markers.push({ marker: marker, ...loc });
@@ -325,37 +327,24 @@
         map.on('click', function (e) {
             if (!routingControl) {
                 routingControl = L.Routing.control({
-                    waypoints: [
-                        L.latLng(37.7749, -122.4194), // default start
-                        e.latlng
-                    ],
-                    routeWhileDragging: true
+                    waypoints: [L.latLng(e.latlng)]
                 }).addTo(map);
             } else {
-                routingControl.setWaypoints([ 
-                    routingControl.getWaypoints()[0].latLng,
-                    e.latlng
-                ]);
+                routingControl.spliceWaypoints(routingControl.getWaypoints().length, 1, e.latlng);
             }
         });
 
-        // Initialize Leaflet Search control
-        var searchControl = new L.Control.Search({
-            layer: L.layerGroup(markers.map(m => m.marker)),
-            initial: false,
-            zoom: 12,
-            marker: false,
-            position: 'topleft'
-        });
-        map.addControl(searchControl);
-
-        // Filter destinations
+        // Filter Locations Based on Region & Budget
         function applyFilters() {
-            var selectedRegion = document.getElementById('regionFilter').value;
-            var budget = parseFloat(document.getElementById('budgetFilter').value) || Infinity;
+            var selectedRegion = document.getElementById("regionFilter").value;
+            var budget = document.getElementById("budgetFilter").value;
 
-            // Remove all current markers
-            markers.forEach(m => map.removeLayer(m.marker));
+            // Clear all existing markers
+            markers.forEach(function (m) {
+                map.removeLayer(m.marker);
+            });
+
+            markers = [];
 
             // Filter locations based on user input
             var filteredLocations = locations.filter(function (loc) {
@@ -365,7 +354,16 @@
             // Add filtered markers back to the map
             filteredLocations.forEach(addMarker);
         }
-    </script>
 
+        // Leaflet Search Integration
+        var searchControl = new L.Control.Search({
+            layer: L.layerGroup(markers.map(m => m.marker)),
+            initial: false,
+            zoom: 12,
+            marker: false
+        });
+
+        searchControl.addTo(map);
+    </script>
 </body>
 </html>
