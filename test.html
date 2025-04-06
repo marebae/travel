@@ -180,21 +180,6 @@
             z-index: 1200;
         }
 
-        /* Styling for Delete Button */
-        .delete-button {
-            background-color: #ff4d4d;
-            color: white;
-            padding: 5px 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 5px;
-        }
-
-        .delete-button:hover {
-            background-color: #ff1a1a;
-        }
-
         /* Routing Directions */
         .leaflet-routing-container {
             background-color: rgba(0, 0, 0, 0.7) !important;
@@ -317,10 +302,23 @@
         // Add initial markers
         locations.forEach(addMarker);
 
-        // Delete Marker
-        function deleteMarker(marker) {
-            map.removeLayer(marker);
-            markers = markers.filter(m => m !== marker);  // Remove marker from array
+        // Function to add a new marker on click
+        map.on('click', function(e) {
+            var newMarker = L.marker(e.latlng).addTo(map);
+            newMarker.bindPopup("<b>New Marker</b>").openPopup();
+        });
+
+        // Routing between Current Location and Destination
+        function routeBetweenMarkers() {
+            if (currentLocationMarker && destinationMarker) {
+                L.Routing.control({
+                    waypoints: [
+                        L.latLng(currentLocationMarker.getLatLng()),
+                        L.latLng(destinationMarker.getLatLng())
+                    ],
+                    routeWhileDragging: true
+                }).addTo(map);
+            }
         }
 
         // Apply Filters
@@ -353,7 +351,6 @@
         });
 
         searchControl.addTo(map);
-
     </script>
 </body>
 </html>
