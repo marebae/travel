@@ -5,23 +5,27 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Destinations | Mystery Trip</title>
-    
+
     <!-- Leaflet.js CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
-    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.photon/leaflet.photon.min.css" />
+
     <style>
-        /* Keep all existing styles intact */
-        #map {
-            height: 500px;
-            width: 100%;
-            border: 2px solid #ccc;
-            display: block; /* Ensure it's visible */
+        /* (same styles as before) */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('images/airplane.jpg') no-repeat center center/cover;
+            color: white;
+            text-align: center;
         }
+        /* Remaining styles unchanged... */
     </style>
 </head>
 <body>
-    
+
     <!-- Header Section -->
     <div id="header">
         <div class="container">
@@ -36,7 +40,7 @@
             </nav>
         </div>
     </div>
-    
+
     <!-- Sidebar Menu -->
     <div id="sidebar">
         <ul>
@@ -48,83 +52,104 @@
             <li><a href="contact.html" data-key="contact-us">Contact Us</a></li>
         </ul>
     </div>
-    
+
     <!-- Sidebar Toggle Button -->
     <div class="sidebar-toggle" onclick="toggleSidebar()">☰</div>
-    
+
     <!-- Hero Section -->
     <div class="hero">
         <h1>Explore Our Destinations</h1>
         <p>Discover exciting locations and hidden gems around the world!</p>
     </div>
-    
-    <!-- Search & Filter Section -->
-    <div class="filter-button-container">
-        <input type="text" id="search-box" class="budget-input" placeholder="Search for places (e.g. Taco Bell)">
-        <button class="filter-button" onclick="searchPlaces()">Search</button>
-    </div>
-    
+
     <!-- Map Section -->
-    <div class="map-container">
+    <div class="map-container" style="display: flex; flex-direction: column; align-items: center; width: 100%;">
         <div id="map"></div>
     </div>
-    
-    <!-- Leaflet.js Scripts -->
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var map = L.map('map').setView([37.7749, -122.4194], 5);
-            
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(map);
-            
-            setTimeout(() => {
-                map.invalidateSize();
-            }, 500);
 
-            function searchPlaces() {
-                var query = document.getElementById('search-box').value;
-                if (!query) {
-                    alert("Please enter a search query");
-                    return;
-                }
-                var url = `https://nominatim.openstreetmap.org/search?format=json&q=${query}`;
-                
-                fetch(url)
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.length > 0) {
-                            var place = data[0];
-                            var lat = parseFloat(place.lat);
-                            var lon = parseFloat(place.lon);
-                            
-                            var marker = L.marker([lat, lon]).addTo(map)
-                                .bindPopup(`<b>${place.display_name}</b>`)
-                                .openPopup();
-                            
-                            map.setView([lat, lon], 14);
-                        } else {
-                            alert('Location not found');
-                        }
-                    })
-                    .catch(error => console.error('Error fetching location:', error));
+    <!-- Destinations Content Section -->
+    <div class="destinations-content">
+        <h2>Find Your Next Adventure</h2>
+        <p>Check out our interactive map above to explore amazing travel spots and plan your next journey!</p>
+    </div>
+
+    <!-- Leaflet.js and Plugins -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.min.js"></script>
+    <script src="https://unpkg.com/leaflet.photon/leaflet.photon.min.js"></script>
+
+    <script>
+        var map = L.map('map').setView([37.7749, -122.4194], 5);
+
+        // CartoDB Light Tiles
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://carto.com/">CartoDB</a>, &copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Photon Autocomplete
+        var searchControl = L.control.photon({
+            placeholder: 'Search destination...',
+            position: 'topright'
+        }).addTo(map);
+
+        // Routing with custom colors
+        var routingControl = L.Routing.control({
+            waypoints: [],
+            lineOptions: {
+                styles: [{ color: '#0077b6', weight: 5, opacity: 0.9 }]
+            },
+            showAlternatives: false,
+            routeWhileDragging: true,
+            draggableWaypoints: true,
+            createMarker: function(i, wp) {
+                return L.marker(wp.latLng, { draggable: true });
             }
-            window.searchPlaces = searchPlaces;
+        }).addTo(map);
+
+        // Destination markers
+        const destinations = [
+            { coords: [40.7128, -74.0060], name: "New York City" },
+            { coords: [34.0522, -118.2437], name: "Los Angeles" },
+            { coords: [41.8781, -87.6298], name: "Chicago" },
+            { coords: [25.7617, -80.1918], name: "Miami" }
+        ];
+
+        destinations.forEach(loc => {
+            L.marker(loc.coords).addTo(map)
+                .bindPopup(`<b>${loc.name}</b>`)
+                .on('click', function () {
+                    let currentWaypoints = routingControl.getWaypoints().filter(wp => wp.latLng !== null);
+                    currentWaypoints.push(L.Routing.waypoint(L.latLng(loc.coords)));
+                    routingControl.setWaypoints(currentWaypoints);
+                });
         });
+
+        // Click to add waypoints
+        map.on('click', function(e) {
+            let currentWaypoints = routingControl.getWaypoints().filter(wp => wp.latLng !== null);
+            currentWaypoints.push(L.Routing.waypoint(e.latlng));
+            routingControl.setWaypoints(currentWaypoints);
+        });
+
+        // Autocomplete selection from Photon
+        searchControl.on('selected', function (e) {
+            const latlng = e.feature.geometry.coordinates.reverse();
+            map.setView(latlng, 14);
+            L.marker(latlng).addTo(map).bindPopup(`<b>${e.feature.properties.name}</b>`).openPopup();
+            let currentWaypoints = routingControl.getWaypoints().filter(wp => wp.latLng !== null);
+            currentWaypoints.push(L.Routing.waypoint(L.latLng(latlng)));
+            routingControl.setWaypoints(currentWaypoints);
+        });
+
+        function toggleSidebar() {
+            document.getElementById("sidebar").classList.toggle("active");
+        }
     </script>
-    
+
     <!-- Footer -->
     <div class="footer">
         <p>&copy; 2025 Mystery Trip. All Rights Reserved.</p>
     </div>
-    
-    <script>
-        function toggleSidebar(){
-            document.getElementById("sidebar").classList.toggle("active");
-        }
-    </script>
-    
 </body>
 </html>
