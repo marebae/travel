@@ -5,14 +5,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Destinations | Mystery Trip</title>
-
+    
     <!-- Leaflet.js CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.photon/leaflet.photon.min.css" />
+    <!-- Leaflet Routing Machine CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+    <!-- Photon Autocomplete CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.photon/leaflet.photon.css" />
 
     <style>
-        /* (same styles as before) */
+        /* General Styling */
         body {
             font-family: 'Poppins', sans-serif;
             margin: 0;
@@ -21,7 +23,162 @@
             color: white;
             text-align: center;
         }
-        /* Remaining styles unchanged... */
+
+        /* Header & Navigation Bar */
+        #header {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .container {
+            width: 85%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+        }
+
+        nav ul li {
+            margin-right: 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2em;
+            transition: 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #ffdd57;
+        }
+
+        /* Hero Section */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 35vh;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 20px;
+        }
+
+        .hero h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            font-size: 1em;
+            max-width: 600px;
+        }
+
+        /* Destinations Content */
+        .destinations-content {
+            max-width: 800px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            padding: 30px;
+            margin: 40px auto;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .destinations-content h2 {
+            color: #0077b6;
+            font-size: 2em;
+        }
+
+        /* Map Section */
+        .map-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px auto;
+            width: 100%;
+        }
+
+        #map {
+            width: 80%;
+            height: 500px;
+            max-width: 800px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            color: white;
+        }
+
+        /* Sidebar Styling */
+        #sidebar {
+            width: 250px;
+            background-color: rgba(0, 0, 0, 0.8);
+            position: fixed;
+            top: 0;
+            left: -250px;
+            height: 100%;
+            transition: left 0.3s ease;
+            z-index: 1100;
+        }
+
+        #sidebar.active {
+            left: 0;
+        }
+
+        #sidebar ul {
+            list-style-type: none;
+            padding: 20px;
+            margin: 0;
+        }
+
+        #sidebar ul li {
+            padding: 15px;
+            border-bottom: 1px solid #333;
+        }
+
+        #sidebar ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2em;
+            transition: 0.3s;
+        }
+
+        #sidebar ul li a:hover {
+            color: #ffdd57;
+        }
+
+        /* Sidebar Toggle Button */
+        .sidebar-toggle {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 30px;
+            cursor: pointer;
+            color: white;
+            z-index: 1200;
+        }
     </style>
 </head>
 <body>
@@ -62,6 +219,19 @@
         <p>Discover exciting locations and hidden gems around the world!</p>
     </div>
 
+    <!-- Filter Section -->
+    <div style="margin-top: 10px;">
+        <select id="regionFilter">
+            <option value="">All Regions</option>
+            <option value="North America">North America</option>
+            <option value="Europe">Europe</option>
+            <option value="Asia">Asia</option>
+        </select>
+
+        <input type="number" id="budgetFilter" placeholder="Max Budget $" style="margin-left: 10px;" />
+        <button onclick="applyFilters()">Filter</button>
+    </div>
+
     <!-- Map Section -->
     <div class="map-container" style="display: flex; flex-direction: column; align-items: center; width: 100%;">
         <div id="map"></div>
@@ -73,77 +243,86 @@
         <p>Check out our interactive map above to explore amazing travel spots and plan your next journey!</p>
     </div>
 
-    <!-- Leaflet.js and Plugins -->
+    <!-- Leaflet.js -->
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <!-- Leaflet Routing Machine -->
     <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.min.js"></script>
+    <!-- Photon Autocomplete -->
     <script src="https://unpkg.com/leaflet.photon/leaflet.photon.min.js"></script>
 
     <script>
-        var map = L.map('map').setView([37.7749, -122.4194], 5);
+        // Initialize the map
+        var map = L.map('map').setView([37.7749, -122.4194], 3);
 
-        // CartoDB Light Tiles
+        // Use CartoDB Positron tiles
         L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-            attribution: '&copy; <a href="https://carto.com/">CartoDB</a>, &copy; OpenStreetMap contributors'
+            attribution: '&copy; <a href="https://carto.com/">CARTO</a> contributors'
         }).addTo(map);
 
-        // Photon Autocomplete
-        var searchControl = L.control.photon({
-            placeholder: 'Search destination...',
-            position: 'topright'
-        }).addTo(map);
+        // Add Photon autocomplete to search
+        var control = L.control.photon().addTo(map);
 
-        // Routing with custom colors
-        var routingControl = L.Routing.control({
-            waypoints: [],
-            lineOptions: {
-                styles: [{ color: '#0077b6', weight: 5, opacity: 0.9 }]
-            },
-            showAlternatives: false,
-            routeWhileDragging: true,
-            draggableWaypoints: true,
-            createMarker: function(i, wp) {
-                return L.marker(wp.latLng, { draggable: true });
-            }
-        }).addTo(map);
-
-        // Destination markers
-        const destinations = [
-            { coords: [40.7128, -74.0060], name: "New York City" },
-            { coords: [34.0522, -118.2437], name: "Los Angeles" },
-            { coords: [41.8781, -87.6298], name: "Chicago" },
-            { coords: [25.7617, -80.1918], name: "Miami" }
+        // Destination Data (with regions + budget for filtering)
+        var locations = [
+            { coords: [40.7128, -74.0060], name: "New York City", region: "North America", cost: 500 },
+            { coords: [34.0522, -118.2437], name: "Los Angeles", region: "North America", cost: 450 },
+            { coords: [41.8781, -87.6298], name: "Chicago", region: "North America", cost: 400 },
+            { coords: [25.7617, -80.1918], name: "Miami", region: "North America", cost: 300 },
+            { coords: [48.8566, 2.3522], name: "Paris", region: "Europe", cost: 750 },
+            { coords: [35.6895, 139.6917], name: "Tokyo", region: "Asia", cost: 950 },
+            { coords: [51.5074, -0.1278], name: "London", region: "Europe", cost: 700 },
+            { coords: [37.5665, 126.9780], name: "Seoul", region: "Asia", cost: 800 }
         ];
 
-        destinations.forEach(loc => {
-            L.marker(loc.coords).addTo(map)
-                .bindPopup(`<b>${loc.name}</b>`)
-                .on('click', function () {
-                    let currentWaypoints = routingControl.getWaypoints().filter(wp => wp.latLng !== null);
-                    currentWaypoints.push(L.Routing.waypoint(L.latLng(loc.coords)));
-                    routingControl.setWaypoints(currentWaypoints);
-                });
+        var markers = [];
+
+        // Function to add a marker
+        function addMarker(loc) {
+            var marker = L.marker(loc.coords)
+                .bindPopup(`<b>${loc.name}</b><br>Region: ${loc.region}<br>Est. Cost: $${loc.cost}`)
+                .addTo(map);
+            markers.push({ marker: marker, ...loc });
+        }
+
+        // Add all markers initially
+        locations.forEach(addMarker);
+
+        // Routing Machine Setup
+        var routingControl;
+
+        map.on('click', function (e) {
+            if (!routingControl) {
+                routingControl = L.Routing.control({
+                    waypoints: [
+                        L.latLng(37.7749, -122.4194), // default start
+                        e.latlng
+                    ],
+                    routeWhileDragging: true
+                }).addTo(map);
+            } else {
+                routingControl.setWaypoints([
+                    routingControl.getWaypoints()[0].latLng,
+                    e.latlng
+                ]);
+            }
         });
 
-        // Click to add waypoints
-        map.on('click', function(e) {
-            let currentWaypoints = routingControl.getWaypoints().filter(wp => wp.latLng !== null);
-            currentWaypoints.push(L.Routing.waypoint(e.latlng));
-            routingControl.setWaypoints(currentWaypoints);
-        });
+        // Filter destinations
+        function applyFilters() {
+            var selectedRegion = document.getElementById('regionFilter').value;
+            var budget = parseFloat(document.getElementById('budgetFilter').value) || Infinity;
 
-        // Autocomplete selection from Photon
-        searchControl.on('selected', function (e) {
-            const latlng = e.feature.geometry.coordinates.reverse();
-            map.setView(latlng, 14);
-            L.marker(latlng).addTo(map).bindPopup(`<b>${e.feature.properties.name}</b>`).openPopup();
-            let currentWaypoints = routingControl.getWaypoints().filter(wp => wp.latLng !== null);
-            currentWaypoints.push(L.Routing.waypoint(L.latLng(latlng)));
-            routingControl.setWaypoints(currentWaypoints);
-        });
+            // Remove all current markers
+            markers.forEach(m => map.removeLayer(m.marker));
+            markers = [];
 
-        function toggleSidebar() {
-            document.getElementById("sidebar").classList.toggle("active");
+            // Re-add markers that match filter
+            locations.forEach(loc => {
+                if ((selectedRegion === "" || loc.region === selectedRegion) &&
+                    loc.cost <= budget) {
+                    addMarker(loc);
+                }
+            });
         }
     </script>
 
@@ -151,5 +330,11 @@
     <div class="footer">
         <p>&copy; 2025 Mystery Trip. All Rights Reserved.</p>
     </div>
+
+    <script>
+        function toggleSidebar(){
+            document.getElementById("sidebar").classList.toggle("active");
+        }
+    </script>
 </body>
 </html>
