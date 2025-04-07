@@ -86,50 +86,59 @@
     <p>Don't have an account? <a href="registration.html">Register here</a></p>
 
     <script>
-        document.getElementById("loginForm").addEventListener("submit", function (event) {
-            event.preventDefault();
+    function setCookie(name, value, days) {
+        let expires = "";
+        if (days) {
+            const date = new Date();
+            date.setTime(date.getTime() + (days*24*60*60*1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    }
 
-            // Hide previous messages
-            let message = document.getElementById("message");
-            let loading = document.getElementById("loading");
-            message.textContent = "";
-            loading.style.display = "block";
+    document.getElementById("loginForm").addEventListener("submit", function (event) {
+        event.preventDefault();
 
-            // Get input values
-            let username = document.getElementById("username").value;
-            let password = document.getElementById("password").value;
+        let message = document.getElementById("message");
+        let loading = document.getElementById("loading");
+        message.textContent = "";
+        loading.style.display = "block";
 
-            // Prevent empty values (even though we have required)
-            if (username.trim() === "" || password.trim() === "") {
-                message.textContent = "❌ Please fill in all fields.";
-                loading.style.display = "none";
-                return;
-            }
+        let username = document.getElementById("username").value;
+        let password = document.getElementById("password").value;
 
-            // Make the fetch request
-            fetch("https://script.google.com/macros/s/AKfycbxI4QheEcCA1Hjj3d0qXOAPDY4utRh7-rpOIXyRzxcXP5-T17cstMpXRqea0Jt_cPLO/exec", {
-                method: "POST",
-                headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: `action=login&username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`
-            })
-            .then(response => response.json())
-            .then(data => {
-                loading.style.display = "none";
+        if (username.trim() === "" || password.trim() === "") {
+            message.textContent = "❌ Please fill in all fields.";
+            loading.style.display = "none";
+            return;
+        }
 
-                if (data.success) {
-                    alert("✅ Login successful! Redirecting...");
-                    window.location.href = "contact.html";
-                } else {
-                    message.textContent = "❌ Invalid credentials. Please try again or register.";
+        fetch("https://script.google.com/macros/s/AKfycbxI4QheEcCA1Hjj3d0qXOAPDY4utRh7-rpOIXyRzxcXP5-T17cstMpXRqea0Jt_cPLO/exec", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: `action=login&username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            loading.style.display = "none";
+
+            if (data.success) {
+                if (data.userID) {
+                    setCookie("userID", data.userID, 7); // Store for 7 days
                 }
-            })
-            .catch(error => {
-                loading.style.display = "none";
-                message.textContent = "❌ Error connecting to server. Please try again later.";
-                console.error("Error:", error);
-            });
-        });
-    </script>
 
+                alert("✅ Login successful! Redirecting...");
+                window.location.href = "dashboard.html"; // or another secure page
+            } else {
+                message.textContent = "❌ Invalid credentials. Please try again or register.";
+            }
+        })
+        .catch(error => {
+            loading.style.display = "none";
+            message.textContent = "❌ Error connecting to server. Please try again later.";
+            console.error("Error:", error);
+        });
+    });
+</script>
 </body>
 </html>
