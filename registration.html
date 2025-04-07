@@ -74,35 +74,55 @@
     </form>
 
     <script>
-        document.getElementById("registerForm").addEventListener("submit", function(event) {
-            event.preventDefault();
+    // Cookie helper
+    function setCookie(name, value, days) {
+        let expires = "";
+        if (days) {
+            const date = new Date();
+            date.setTime(date.getTime() + (days*24*60*60*1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    }
 
-            let username = document.getElementById("username").value;
-            let password = document.getElementById("password").value;
-            let email = document.getElementById("email").value;
-            let message = document.getElementById("message");
+    document.getElementById("registerForm").addEventListener("submit", function(event) {
+        event.preventDefault();
 
-            fetch("https://script.google.com/macros/s/AKfycbxI4QheEcCA1Hjj3d0qXOAPDY4utRh7-rpOIXyRzxcXP5-T17cstMpXRqea0Jt_cPLO/exec", {
-                method: "POST",
-                headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: `action=register&username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}&email=${encodeURIComponent(email)}`
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    message.style.color = "green";
-                    message.textContent = "✅ Registration successful! Redirecting to login...";
-                    setTimeout(() => {
-                        window.location.href = "sign_in.html";
-                    }, 2000);
-                } else {
-                    message.style.color = "red";
-                    message.textContent = `❌ ${data.error}`;
+        let username = document.getElementById("username").value;
+        let password = document.getElementById("password").value;
+        let email = document.getElementById("email").value;
+        let message = document.getElementById("message");
+
+        fetch("https://script.google.com/macros/s/AKfycbxI4QheEcCA1Hjj3d0qXOAPDY4utRh7-rpOIXyRzxcXP5-T17cstMpXRqea0Jt_cPLO/exec", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: `action=register&username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}&email=${encodeURIComponent(email)}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Optional: Set cookie if userID is returned
+                if (data.userID) {
+                    setCookie("userID", data.userID, 7); // Store userID for 7 days
                 }
-            })
-            .catch(error => console.error("Error:", error));
-        });
-    </script>
 
+                message.style.color = "green";
+                message.textContent = "✅ Registration successful! Redirecting...";
+
+                setTimeout(() => {
+                    window.location.href = "sign_in.html"; // or "dashboard.html"
+                }, 2000);
+            } else {
+                message.style.color = "red";
+                message.textContent = `❌ ${data.error}`;
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            message.style.color = "red";
+            message.textContent = "❌ Registration failed. Try again.";
+        });
+    });
+</script>
 </body>
 </html>
