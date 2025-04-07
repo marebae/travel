@@ -173,104 +173,106 @@
     <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.min.js"></script>
 
     <script>
-        // Initialize the map
-        var map = L.map('map').setView([37.7749, -122.4194], 3);
+    // Initialize the map
+    var map = L.map('map').setView([37.7749, -122.4194], 3);
 
-        // Add CartoDB Positron tiles
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-            attribution: '&copy; <a href="https://carto.com/">CARTO</a> contributors'
-        }).addTo(map);
+    // Add CartoDB tiles
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="https://carto.com/">CARTO</a> contributors'
+    }).addTo(map);
 
-        // Current Location and Destination Markers
-        var currentLocationMarker, destinationMarker;
-        var markers = []; // Store manual markers
+    // Marker and Routing Control variables
+    var currentLocationMarker = null;
+    var destinationMarker = null;
+    var routeControl = null;
+    var locationStep = 'current'; // Track whether setting current or destination
 
-        // Search for a location using Nominatim (OpenStreetMap)
-        function searchLocation() {
-            var searchQuery = document.getElementById('searchBox').value;
-            if (searchQuery.trim() === "") return;
+    // Search function using Nominatim
+    function searchLocation() {
+        var searchQuery = document.getElementById('searchBox').value;
+        if (!searchQuery.trim()) return;
 
-            fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${searchQuery}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.length > 0) {
-                        var lat = data[0].lat;
-                        var lon = data[0].lon;
-                        var placeName = data[0].display_name;
+        fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${searchQuery}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.length > 0) {
+                    var lat = parseFloat(data[0].lat);
+                    var lon = parseFloat(data[0].lon);
+                    var placeName = data[0].display_name;
 
-                        // Add marker at the location
-                        if (destinationMarker) {
-                            map.removeLayer(destinationMarker);
-                        }
-                        destinationMarker = L.marker([lat, lon]).addTo(map).bindPopup(placeName).openPopup();
-                        
-                        // Center map on the found location
-                        map.setView([lat, lon], 12);
+                    if (destinationMarker) map.removeLayer(destinationMarker);
+                    destinationMarker = L.marker([lat, lon]).addTo(map).bindPopup(`<b>${placeName}</b>`).openPopup();
 
-                        // Add route if current location is set
-                        if (currentLocationMarker) {
-                            routeBetweenMarkers();
-                        }
-                    } else {
-                        alert("Location not found.");
-                    }
-                })
-                .catch(error => {
-                    console.error('Error fetching location:', error);
-                    alert("Error searching for location.");
-                });
-        }
-
-        // Function to set current location and destination
-        function setLocation(type) {
-            map.on('click', function(e) {
-                var latlng = e.latlng;
-                if (type === 'current') {
-                    if (currentLocationMarker) {
-                        currentLocationMarker.setLatLng(latlng);
-                    } else {
-                        currentLocationMarker = L.marker(latlng).addTo(map).bindPopup("Current Location");
-                    }
-                } else if (type === 'destination') {
-                    if (destinationMarker) {
-                        destinationMarker.setLatLng(latlng);
-                    } else {
-                        destinationMarker = L.marker(latlng).addTo(map).bindPopup("Destination");
-                    }
+                    map.setView([lat, lon], 12);
+                    updateRoute();
+                } else {
+                    alert("Location not found.");
                 }
-                routeBetweenMarkers();
+            })
+            .catch(err => {
+                console.error(err);
+                alert("Search failed.");
             });
-        }
+    }
 
-        // Routing between Current Location and Destination
-        function routeBetweenMarkers() {
-            if (currentLocationMarker && destinationMarker) {
-                L.Routing.control({
-                    waypoints: [
-                        L.latLng(currentLocationMarker.getLatLng()),
-                        L.latLng(destinationMarker.getLatLng())
-                    ],
-                    routeWhileDragging: true
-                }).addTo(map);
+    // Update route between markers
+    function updateRoute() {
+        if (currentLocationMarker && destinationMarker) {
+            if (routeControl) {
+                map.removeControl(routeControl);
             }
+            routeControl = L.Routing.control({
+                waypoints: [
+                    currentLocationMarker.getLatLng(),
+                    destinationMarker.getLatLng()
+                ],
+                lineOptions: {
+                    styles: [{ color: '#007bff', opacity: 0.8, weight: 5 }]
+                },
+                createMarker: () => null,
+                addWaypoints: false,
+                draggableWaypoints: false
+            }).addTo(map);
         }
+    }
 
-        // Function to delete the marker
-        function deleteMarker() {
-            if (destinationMarker) {
-                map.removeLayer(destinationMarker);
-                destinationMarker = null;
-            }
+    // Delete both markers and clear routes
+    function deleteMarker() {
+        if (currentLocationMarker) {
+            map.removeLayer(currentLocationMarker);
+            currentLocationMarker = null;
+        }
+        if (destinationMarker) {
+            map.removeLayer(destinationMarker);
+            destinationMarker = null;
+        }
+        if (routeControl) {
+            map.removeControl(routeControl);
+            routeControl = null;
+        }
+        locationStep = 'current'; // reset
+    }
+
+    // Click map to set current/destination
+    map.on('click', function (e) {
+        const coords = e.latlng;
+        if (locationStep === 'current') {
             if (currentLocationMarker) {
-                map.removeLayer(currentLocationMarker);
-                currentLocationMarker = null;
+                currentLocationMarker.setLatLng(coords);
+            } else {
+                currentLocationMarker = L.marker(coords).addTo(map).bindPopup("Current Location").openPopup();
             }
+            locationStep = 'destination';
+        } else {
+            if (destinationMarker) {
+                destinationMarker.setLatLng(coords);
+            } else {
+                destinationMarker = L.marker(coords).addTo(map).bindPopup("Destination").openPopup();
+            }
+            locationStep = 'current'; // cycle back
+            updateRoute();
         }
-
-        // Allow user to click to add current location
-        map.on('click', function(e) {
-            setLocation('current'); // Set current location
-        });
-    </script>
+    });
+</script>
 </body>
 </html>
