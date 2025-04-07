@@ -237,7 +237,10 @@
                 </ul>
             </nav>
 
-            <div>
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <!-- Username Display -->
+                <div id="usernameDisplay" style="font-size: 1.1em; font-weight: bold;"></div>
+
                 <!-- Language Selector -->
                 <select class="language-selector" onchange="changeLanguage(this.value)">
                     <option value="en">🇺🇸 English</option>
@@ -303,33 +306,33 @@
                 "about": "About",
                 "contact-us": "Contact Us"
             },
-         es: {
-         "nav-home": "Inicio",
-         "nav-about": "Acerca de",
-         "nav-destinations": "Destinos",
-         "nav-contact": "Contáctenos",
-         "hero-title": "Explora el Mundo",
-         "hero-text": "¡La aventura está ahí fuera! Permítenos llevarte a destinos impresionantes alrededor del mundo.",
-         "hero-button": "Planifica tu Viaje",
-         "profile": "Perfil",
-         "sign-in": "Iniciar Sesión",
-         "register": "Registrarse",
-         "friends": "Amigos"
-        },
-         fr: {
-         "nav-home": "Accueil",
-         "nav-about": "À Propos",
-         "nav-destinations": "Destinations",
-         "nav-contact": "Contactez-nous",
-         "hero-title": "Explorez le Monde",
-         "hero-text": "L'aventure est là dehors ! Laissez-nous vous emmener dans des destinations à couper le souffle à travers le monde.",
-         "hero-button": "Planifiez votre Voyage",
-         "profile": "Profil",
-         "sign-in": "Se Connecter",
-         "register": "S'inscrire",
-         "friends": "Amis"
-        }
-     };
+            es: {
+                "nav-home": "Inicio",
+                "nav-about": "Acerca de",
+                "nav-destinations": "Destinos",
+                "nav-contact": "Contáctenos",
+                "hero-title": "Explora el Mundo",
+                "hero-text": "¡La aventura está ahí fuera! Permítenos llevarte a destinos impresionantes alrededor del mundo.",
+                "hero-button": "Planifica tu Viaje",
+                "profile": "Perfil",
+                "sign-in": "Iniciar Sesión",
+                "register": "Registrarse",
+                "friends": "Amigos"
+            },
+            fr: {
+                "nav-home": "Accueil",
+                "nav-about": "À Propos",
+                "nav-destinations": "Destinations",
+                "nav-contact": "Contactez-nous",
+                "hero-title": "Explorez le Monde",
+                "hero-text": "L'aventure est là dehors ! Laissez-nous vous emmener dans des destinations à couper le souffle à travers le monde.",
+                "hero-button": "Planifiez votre Voyage",
+                "profile": "Profil",
+                "sign-in": "Se Connecter",
+                "register": "S'inscrire",
+                "friends": "Amis"
+            }
+        };
 
         function changeLanguage(language) {
             localStorage.setItem("selectedLanguage", language); // Save to localStorage
@@ -348,10 +351,27 @@
             document.querySelector(".language-selector").value = language;
         }
 
-        // On page load, apply the saved language
+        function getCookie(name) {
+            const cookieArr = document.cookie.split(';');
+            for (let cookie of cookieArr) {
+                const [key, value] = cookie.trim().split('=');
+                if (key === name) return decodeURIComponent(value);
+            }
+            return null;
+        }
+
+        // On page load, apply language and display username
         document.addEventListener("DOMContentLoaded", () => {
             const savedLanguage = localStorage.getItem("selectedLanguage") || "en";
             applyTranslations(savedLanguage);
+
+            const username = localStorage.getItem("username");
+            const userID = getCookie("userID");
+
+            if (username && userID) {
+                const display = document.getElementById("usernameDisplay");
+                if (display) display.textContent = `Hi, ${username}`;
+            }
         });
 
         // Sidebar toggle function
