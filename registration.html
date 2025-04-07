@@ -82,7 +82,7 @@
             let email = document.getElementById("email").value;
             let message = document.getElementById("message");
 
-            fetch("https://script.google.com/macros/s/AKfycbx3YY0eY2b4rowxOp3ynsUU0bY-GVavCMSluUtne-0K59_oQBxm8FIO84t8s52NBlsg/exec", {
+            fetch("https://script.google.com/macros/s/AKfycbwwRC_3FYEEqpOeVJOZ9uNj89q2jzqtQVbYIebAyfL5zz5R59PcZdjNi12PDfrSNJGp/exec", {
                 method: "POST",
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 body: `action=register&username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}&email=${encodeURIComponent(email)}`
