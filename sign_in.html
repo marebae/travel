@@ -126,7 +126,7 @@
                 if (data.userID) {
                     setCookie("userID", data.userID, 7); // Store for 7 days
                 }
-
+                localStorage.setItem("username", username); // ✅ Store the username
                 alert("✅ Login successful! Redirecting...");
                 window.location.href = "home.html"; // or another secure page
             } else {
