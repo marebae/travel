@@ -3,209 +3,607 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Translation Guide</title>
+    <title>Multilingual Translation Guide</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-color: #4a6bff;
+            --secondary-color: #ffdd57;
+            --hover-color: #3a56d4;
+            --background-color: #f8f9fa;
+            --text-color: #333;
+            --light-text: #666;
+            --border-color: #e0e0e0;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
-            color: #333;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-top: 30px;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
         }
 
-        h1 {
-            font-size: 2.5em;
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        .content-container {
+        .container {
             width: 90%;
             max-width: 1200px;
             margin: 0 auto;
+            padding: 30px 0;
         }
 
-        select {
-            padding: 10px;
-            font-size: 1.2em;
-            border-radius: 5px;
-            background-color: #ffdd57;
-            border: none;
-            cursor: pointer;
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .subtitle {
+            color: var(--light-text);
+            font-size: 1.1rem;
             margin-bottom: 30px;
         }
 
-        select:hover {
-            background-color: #ffc107;
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        label {
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        select, input {
+            padding: 12px 15px;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background-color: white;
+            transition: all 0.3s ease;
+        }
+
+        select {
+            min-width: 200px;
+            cursor: pointer;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23333' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 16px;
+            appearance: none;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(74, 107, 255, 0.2);
+        }
+
+        .search-box {
+            flex-grow: 1;
+            max-width: 400px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin-bottom: 40px;
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
+            background-color: white;
         }
 
         table {
             width: 100%;
-            margin-bottom: 50px;
             border-collapse: collapse;
-            text-align: center;
-        }
-
-        table, th, td {
-            border: 1px solid #ddd;
         }
 
         th, td {
-            padding: 10px;
-            font-size: 1em;
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
         }
 
         th {
-            background-color: #ffdd57;
-            color: #333;
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 500;
+            position: sticky;
+            top: 0;
         }
 
-        td {
-            background-color: #fff;
+        tr:hover {
+            background-color: rgba(74, 107, 255, 0.05);
         }
 
-        td span {
-            font-weight: bold;
+        .phrase {
+            font-weight: 600;
+            color: var(--primary-color);
         }
 
-        .back-button {
-            background: #ffdd57;
-            color: #333;
+        .pronunciation {
+            color: var(--light-text);
+            font-style: italic;
+            font-size: 0.9em;
+        }
+
+        .language-header {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .language-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
             padding: 12px 25px;
-            font-size: 1.2em;
-            border-radius: 30px;
+            font-size: 1rem;
+            border-radius: 8px;
             text-decoration: none;
-            transition: 0.3s;
-            margin-top: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .back-button:hover {
-            background: #ffc107;
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--hover-color);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: #ffc107;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: var(--light-text);
+            display: none;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .filter-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            select, .search-box {
+                width: 100%;
+                max-width: none;
+            }
+            
+            th, td {
+                padding: 10px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .container {
+                width: 95%;
+            }
+        }
+
+        /* Flag indicators */
+        .flag-icon {
+            width: 20px;
+            height: 15px;
+            margin-right: 8px;
+            vertical-align: middle;
+            border: 1px solid #ddd;
         }
     </style>
 </head>
 <body>
 
-    <div class="content-container">
-        <h1>Basic Translation Guide</h1>
+    <div class="container">
+        <header>
+            <h1>Multilingual Translation Guide</h1>
+            <p class="subtitle">Essential phrases for travelers and language learners</p>
+        </header>
 
-        <!-- Dropdown Menu for Language Selection -->
-        <label for="language-select" style="font-size: 1.2em;">Select Language:</label>
-        <select id="language-select" onchange="filterTable()">
-            <option value="all">All Languages</option>
-            <option value="spanish">Spanish</option>
-            <option value="french">French</option>
-            <option value="german">German</option>
-            <option value="italian">Italian</option>
-            <option value="portuguese">Portuguese</option>
-            <option value="dutch">Dutch</option>
-            <option value="russian">Russian</option>
-            <option value="chinese">Chinese</option>
-            <option value="japanese">Japanese</option>
-        </select>
+        <div class="controls">
+            <div class="filter-group">
+                <label for="language-select">Filter by Language:</label>
+                <select id="language-select" onchange="filterTable()">
+                    <option value="all">All Languages</option>
+                    <option value="spanish">Spanish</option>
+                    <option value="french">French</option>
+                    <option value="german">German</option>
+                    <option value="italian">Italian</option>
+                    <option value="portuguese">Portuguese</option>
+                    <option value="dutch">Dutch</option>
+                    <option value="russian">Russian</option>
+                    <option value="chinese">Chinese</option>
+                    <option value="japanese">Japanese</option>
+                </select>
+            </div>
+            
+            <div class="filter-group search-box">
+                <label for="search-input">Search Phrases:</label>
+                <input type="text" id="search-input" placeholder="Type to search..." oninput="searchTable()">
+            </div>
+        </div>
 
-        <table id="translation-table">
-            <thead>
-                <tr>
-                    <th>Phrase</th>
-                    <th>English</th>
-                    <th>Pronunciation (English)</th>
-                    <th>Spanish</th>
-                    <th>Pronunciation (Spanish)</th>
-                    <th>French</th>
-                    <th>Pronunciation (French)</th>
-                    <th>German</th>
-                    <th>Pronunciation (German)</th>
-                    <th>Italian</th>
-                    <th>Pronunciation (Italian)</th>
-                    <th>Portuguese</th>
-                    <th>Pronunciation (Portuguese)</th>
-                    <th>Dutch</th>
-                    <th>Pronunciation (Dutch)</th>
-                    <th>Russian</th>
-                    <th>Pronunciation (Russian)</th>
-                    <th>Chinese</th>
-                    <th>Pronunciation (Chinese)</th>
-                    <th>Japanese</th>
-                    <th>Pronunciation (Japanese)</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr class="all spanish">
-                    <td><span>Hello</span></td>
-                    <td>Hello</td>
-                    <td>he-loh</td>
-                    <td>Hola</td>
-                    <td>OH-lah</td>
-                    <td>Bonjour</td>
-                    <td>bohn-zhoor</td>
-                    <td>Hallo</td>
-                    <td>HAH-loh</td>
-                    <td>Ciao</td>
-                    <td>chow</td>
-                    <td>Olá</td>
-                    <td>oh-LAH</td>
-                    <td>Hallo</td>
-                    <td>HAH-loh</td>
-                    <td>Привет</td>
-                    <td>pree-VYET</td>
-                    <td>你好</td>
-                    <td>nee-how</td>
-                    <td>こんにちは</td>
-                    <td>kon-ni-chi-wa</td>
-                </tr>
-                <tr class="all spanish">
-                    <td><span>Thank you</span></td>
-                    <td>Thank you</td>
-                    <td>thangk yoo</td>
-                    <td>Gracias</td>
-                    <td>GRAH-see-ahs</td>
-                    <td>Merci</td>
-                    <td>mehr-see</td>
-                    <td>Danke</td>
-                    <td>DAHN-kuh</td>
-                    <td>Grazie</td>
-                    <td>GRAHT-see-eh</td>
-                    <td>Obrigado</td>
-                    <td>oh-bree-GAH-doo</td>
-                    <td>Dank je wel</td>
-                    <td>dahnk yuh vel</td>
-                    <td>Спасибо</td>
-                    <td>spas-EE-bah</td>
-                    <td>谢谢</td>
-                    <td>shyeh-shyeh</td>
-                    <td>ありがとうございます</td>
-                    <td>ah-ree-ga-TOH-go-za-i-masu</td>
-                </tr>
-                <!-- Add other rows in a similar manner for each phrase -->
-            </tbody>
-        </table>
+        <div class="table-container">
+            <table id="translation-table">
+                <thead>
+                    <tr>
+                        <th>Phrase</th>
+                        <th>
+                            <div class="language-header">
+                                <span class="language-name">English</span>
+                                <span class="language-sub">Pronunciation</span>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="language-header">
+                                <span class="language-name">Spanish</span>
+                                <span class="language-sub">Pronunciación</span>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="language-header">
+                                <span class="language-name">French</span>
+                                <span class="language-sub">Prononciation</span>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="language-header">
+                                <span class="language-name">German</span>
+                                <span class="language-sub">Aussprache</span>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="language-header">
+                                <span class="language-name">Italian</span>
+                                <span class="language-sub">Pronuncia</span>
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="all spanish french german italian portuguese dutch russian chinese japanese">
+                        <td class="phrase">Hello</td>
+                        <td>
+                            Hello
+                            <div class="pronunciation">heh-LOH</div>
+                        </td>
+                        <td>
+                            Hola
+                            <div class="pronunciation">OH-lah</div>
+                        </td>
+                        <td>
+                            Bonjour
+                            <div class="pronunciation">bohn-ZHOOR</div>
+                        </td>
+                        <td>
+                            Hallo
+                            <div class="pronunciation">HAH-loh</div>
+                        </td>
+                        <td>
+                            Ciao
+                            <div class="pronunciation">CHOW</div>
+                        </td>
+                    </tr>
+                    <tr class="all spanish french german italian portuguese dutch russian chinese japanese">
+                        <td class="phrase">Thank you</td>
+                        <td>
+                            Thank you
+                            <div class="pronunciation">THANK yoo</div>
+                        </td>
+                        <td>
+                            Gracias
+                            <div class="pronunciation">GRAH-syahs</div>
+                        </td>
+                        <td>
+                            Merci
+                            <div class="pronunciation">mehr-SEE</div>
+                        </td>
+                        <td>
+                            Danke
+                            <div class="pronunciation">DAHN-kuh</div>
+                        </td>
+                        <td>
+                            Grazie
+                            <div class="pronunciation">GRAHT-syeh</div>
+                        </td>
+                    </tr>
+                    <tr class="all spanish french german italian portuguese dutch russian chinese japanese">
+                        <td class="phrase">Goodbye</td>
+                        <td>
+                            Goodbye
+                            <div class="pronunciation">good-BY</div>
+                        </td>
+                        <td>
+                            Adiós
+                            <div class="pronunciation">ah-DYOHS</div>
+                        </td>
+                        <td>
+                            Au revoir
+                            <div class="pronunciation">oh ruh-VWAR</div>
+                        </td>
+                        <td>
+                            Auf Wiedersehen
+                            <div class="pronunciation">owf VEE-der-zay-en</div>
+                        </td>
+                        <td>
+                            Arrivederci
+                            <div class="pronunciation">ah-ree-veh-DEHR-chee</div>
+                        </td>
+                    </tr>
+                    <tr class="all spanish french german italian portuguese dutch russian chinese japanese">
+                        <td class="phrase">Please</td>
+                        <td>
+                            Please
+                            <div class="pronunciation">PLEEZ</div>
+                        </td>
+                        <td>
+                            Por favor
+                            <div class="pronunciation">por fah-BOR</div>
+                        </td>
+                        <td>
+                            S'il vous plaît
+                            <div class="pronunciation">seel voo PLEH</div>
+                        </td>
+                        <td>
+                            Bitte
+                            <div class="pronunciation">BIT-tuh</div>
+                        </td>
+                        <td>
+                            Per favore
+                            <div class="pronunciation">pehr fah-VOH-reh</div>
+                        </td>
+                    </tr>
+                    <tr class="all spanish french german italian portuguese dutch russian chinese japanese">
+                        <td class="phrase">Excuse me</td>
+                        <td>
+                            Excuse me
+                            <div class="pronunciation">ex-KYOOZ mee</div>
+                        </td>
+                        <td>
+                            Disculpe
+                            <div class="pronunciation">dees-KOOL-peh</div>
+                        </td>
+                        <td>
+                            Excusez-moi
+                            <div class="pronunciation">ex-kyoo-ZAY mwah</div>
+                        </td>
+                        <td>
+                            Entschuldigung
+                            <div class="pronunciation">ent-SHOOL-dee-goong</div>
+                        </td>
+                        <td>
+                            Scusi
+                            <div class="pronunciation">SKOO-zee</div>
+                        </td>
+                    </tr>
+                    <tr class="all spanish french german italian portuguese dutch russian chinese japanese">
+                        <td class="phrase">I don't understand</td>
+                        <td>
+                            I don't understand
+                            <div class="pronunciation">eye dont un-der-STAND</div>
+                        </td>
+                        <td>
+                            No entiendo
+                            <div class="pronunciation">noh en-TYEN-doh</div>
+                        </td>
+                        <td>
+                            Je ne comprends pas
+                            <div class="pronunciation">zhuh nuh kom-PRAHN pah</div>
+                        </td>
+                        <td>
+                            Ich verstehe nicht
+                            <div class="pronunciation">ish fehr-SHTAY-uh nisht</div>
+                        </td>
+                        <td>
+                            Non capisco
+                            <div class="pronunciation">non kah-PEES-koh</div>
+                        </td>
+                    </tr>
+                    <tr class="all spanish french german italian portuguese dutch russian chinese japanese">
+                        <td class="phrase">Do you speak English?</td>
+                        <td>
+                            Do you speak English?
+                            <div class="pronunciation">doo yoo SPEAK ING-lish</div>
+                        </td>
+                        <td>
+                            ¿Hablas inglés?
+                            <div class="pronunciation">AH-blahs een-GLAYS</div>
+                        </td>
+                        <td>
+                            Parlez-vous anglais?
+                            <div class="pronunciation">par-LAY voo zahn-GLAY</div>
+                        </td>
+                        <td>
+                            Sprechen Sie Englisch?
+                            <div class="pronunciation">SHPREH-shen zee ENG-lish</div>
+                        </td>
+                        <td>
+                            Parla inglese?
+                            <div class="pronunciation">PAR-lah een-GLEH-zeh</div>
+                        </td>
+                    </tr>
+                    <tr class="all spanish french german italian portuguese dutch russian chinese japanese">
+                        <td class="phrase">Where is...?</td>
+                        <td>
+                            Where is...?
+                            <div class="pronunciation">WAIR iz</div>
+                        </td>
+                        <td>
+                            ¿Dónde está...?
+                            <div class="pronunciation">DON-deh es-TAH</div>
+                        </td>
+                        <td>
+                            Où est...?
+                            <div class="pronunciation">oo eh</div>
+                        </td>
+                        <td>
+                            Wo ist...?
+                            <div class="pronunciation">voh ist</div>
+                        </td>
+                        <td>
+                            Dov'è...?
+                            <div class="pronunciation">doh-VEH</div>
+                        </td>
+                    </tr>
+                    <tr class="all spanish french german italian portuguese dutch russian chinese japanese">
+                        <td class="phrase">How much is this?</td>
+                        <td>
+                            How much is this?
+                            <div class="pronunciation">how MUCH iz THIS</div>
+                        </td>
+                        <td>
+                            ¿Cuánto cuesta esto?
+                            <div class="pronunciation">KWAN-toh KWES-tah ES-toh</div>
+                        </td>
+                        <td>
+                            Combien ça coûte?
+                            <div class="pronunciation">kom-BYEHN sah KOOT</div>
+                        </td>
+                        <td>
+                            Wie viel kostet das?
+                            <div class="pronunciation">vee FEEL KOS-tet dahs</div>
+                        </td>
+                        <td>
+                            Quanto costa questo?
+                            <div class="pronunciation">KWAN-toh KOS-tah KWES-toh</div>
+                        </td>
+                    </tr>
+                    <tr class="all spanish french german italian portuguese dutch russian chinese japanese">
+                        <td class="phrase">I would like...</td>
+                        <td>
+                            I would like...
+                            <div class="pronunciation">eye wood LIKE</div>
+                        </td>
+                        <td>
+                            Me gustaría...
+                            <div class="pronunciation">meh goos-tah-REE-ah</div>
+                        </td>
+                        <td>
+                            Je voudrais...
+                            <div class="pronunciation">zhuh voo-DREH</div>
+                        </td>
+                        <td>
+                            Ich möchte...
+                            <div class="pronunciation">ish MERCH-tuh</div>
+                        </td>
+                        <td>
+                            Vorrei...
+                            <div class="pronunciation">vor-RAY</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div id="no-results" class="no-results">
+                <h3>No phrases found matching your search</h3>
+                <p>Try adjusting your search or filter criteria</p>
+            </div>
+        </div>
 
-        <a href="home.html" class="back-button">Back to Home</a>
+        <div class="actions">
+            <a href="home.html" class="btn btn-secondary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+                </svg>
+                Back to Home
+            </a>
+            <button class="btn btn-primary" onclick="window.print()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M5 1a2 2 0 0 0-2 2v1h10V3a2 2 0 0 0-2-2H5zm6 8H5a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1z"/>
+                    <path d="M0 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-1v-2a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2H2a2 2 0 0 1-2-2V7zm2.5 1a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/>
+                </svg>
+                Print Guide
+            </button>
+        </div>
     </div>
 
     <script>
         function filterTable() {
-            var selectedLanguage = document.getElementById('language-select').value;
-            var rows = document.querySelectorAll('#translation-table tbody tr');
+            const selectedLanguage = document.getElementById('language-select').value;
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            const rows = document.querySelectorAll('#translation-table tbody tr');
+            let hasResults = false;
 
             rows.forEach(function(row) {
-                if (selectedLanguage === 'all') {
+                const phraseCell = row.querySelector('.phrase');
+                const phraseText = phraseCell ? phraseCell.textContent.toLowerCase() : '';
+                const matchesLanguage = selectedLanguage === 'all' || row.classList.contains(selectedLanguage);
+                const matchesSearch = searchTerm === '' || phraseText.includes(searchTerm);
+
+                if (matchesLanguage && matchesSearch) {
                     row.style.display = '';
+                    hasResults = true;
                 } else {
-                    // Hide rows where the selected language is not included
-                    if (row.classList.contains(selectedLanguage)) {
-                        row.style.display = '';
-                    } else {
-                        row.style.display = 'none';
-                    }
+                    row.style.display = 'none';
                 }
             });
+
+        
+            document.getElementById('no-results').style.display = hasResults ? 'none' : 'block';
         }
+
+        function searchTable() {
+            filterTable();
+        }
+
+      
+        document.addEventListener('DOMContentLoaded', function() {
+            filterTable();
+        });
     </script>
 
 </body>
