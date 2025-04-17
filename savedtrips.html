@@ -198,7 +198,19 @@
   </div>
 
   <script>
-    const userID = 'USER_123'; // Replace with actual user ID from login if available
+    // Retrieve userID from cookies
+    function getCookie(name) {
+      let cookieArr = document.cookie.split("; ");
+      for (let i = 0; i < cookieArr.length; i++) {
+        let cookiePair = cookieArr[i].split("=");
+        if (name == cookiePair[0]) {
+          return decodeURIComponent(cookiePair[1]);
+        }
+      }
+      return null;
+    }
+
+    const userID = getCookie("userID"); // Get userID from the cookie
     const apiUrl = 'https://script.google.com/macros/s/AKfycbzo3aZe-nNEcSduzj4-7_kiK9aKfSukEU_xjuTQB4B5FJFeLb0VljjoVj4Wlx-6IlU/exec';
 
     function openTripForm() {
