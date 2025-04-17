@@ -1,12 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saved Trips | Explore the World</title>
+    <style>
+        /* General Styling */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('images/airplane.jpg') no-repeat center center/cover;
+            color: white;
+            text-align: center;
+        }
+
+        /* Header & Navigation Bar */
+        #header {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .container {
+            width: 85%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+        }
+
+        nav ul li {
+            margin-right: 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2em;
+            transition: 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #ffdd57;
+        }
+
+        /* Saved Trips Section */
+        .saved-trips-container {
+            margin-top: 100px; /* To avoid overlap with fixed header */
+            padding: 20px;
+        }
+
+        .section-title {
+            font-size: 2em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
+        }
+
+        .trip-card {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: 0.3s;
+        }
+
+        .trip-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .trip-image {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .trip-details {
+            width: 100%;
+            text-align: left;
+        }
+
+        .trip-title {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+            color: #ffdd57;
+        }
+
+        .trip-date {
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+
+        .trip-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .action-btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .view-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .delete-btn {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .action-btn:hover {
+            opacity: 0.8;
+        }
+
+        /* No Trips Message */
+        .no-trips {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 10px;
+            font-size: 1.2em;
+        }
+
+        /* Add Trip Button */
+        .add-trip-btn {
+            background-color: #ffdd57;
+            color: #333;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1em;
+            cursor: pointer;
+            margin-bottom: 30px;
+            transition: 0.3s;
+        }
+
+        .add-trip-btn:hover {
+            background-color: #ffcc00;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
 <body>
+
     <!-- Header Section -->
     <div id="header">
         <div class="container">
             <nav>
                 <ul>
-                    <li><a href="home" data-key="nav-home">Home</a></li>
-                    <li><a href="map" data-key="nav-destinations">Destinations</a></li>
-                    <li><a href="community" data-key="nav-community">Community</a></li>
+                    <li><a href="home">Home</a></li>
+                    <li><a href="map">Destinations</a></li>
+                    <li><a href="community">Community</a></li>
                     <li><a href="gallery">Gallery</a></li>
                     <li><a href="previousd">Previous Destinations</a></li>
                 </ul>
@@ -14,32 +185,18 @@
         </div>
     </div>
 
-    <!-- Sidebar Menu -->
-    <div id="sidebar">
-        <ul>
-            <li><a href="friends.html" data-key="friends">Friends</a></li>
-            <li><a href="travel-guide.html" data-key="travel-guide">Travel Guide</a></li>
-            <li><a href="translation-guide.html" data-key="translation-guide">Translation Guide</a></li>
-            <li><a href="achievements.html" data-key="Achievements">Achievements</a></li>
-            <li><a href="savedtrips.html" data-key="saved-trips">Saved Trips</a></li>
-            <li><a href="about.html" data-key="about">About</a></li>
-            <li><a href="contact.html" data-key="contact-us">Contact Us</a></li>
-        </ul>
-    </div>
-
-    <!-- Sidebar Toggle Button -->
-    <div class="sidebar-toggle" onclick="toggleSidebar()">☰</div>
-
     <!-- Saved Trips Section -->
     <div class="saved-trips-container">
         <h2 class="section-title">Your Saved Trips</h2>
-        
+
         <button class="add-trip-btn" onclick="openTripForm()">+ Add New Trip</button>
 
-        <!-- Dynamic Trip Cards -->
-        <div id="tripsContainer"></div>
+        <!-- Trip Cards Container -->
+        <div id="tripsContainer">
+            <!-- Dynamic trip cards will be populated here -->
+        </div>
 
-        <!-- No Trips Message -->
+        <!-- No Trips Message (hidden by default) -->
         <div id="noTripsMessage" class="no-trips" style="display: none;">
             <p>You haven't saved any trips yet.</p>
             <p>Start planning your next adventure by clicking the "Add New Trip" button above!</p>
@@ -51,56 +208,56 @@
         <div style="background:white; color:#333; padding:30px; border-radius:10px; max-width:400px; width:90%;">
             <h2>Add a New Trip</h2>
             <form id="tripForm">
-                <input type="text" id="tripTitle" placeholder="Trip Title" required style="width:100%; margin-bottom:10px;" />
+                <input type="text" id="tripName" placeholder="Trip Name" required style="width:100%; margin-bottom:10px;" />
                 <input type="text" id="tripPlace" placeholder="Destination" required style="width:100%; margin-bottom:10px;" />
                 <input type="date" id="tripDate" required style="width:100%; margin-bottom:10px;" />
-                <textarea id="tripDescription" placeholder="Trip Description" style="width:100%; margin-bottom:10px;" rows="4"></textarea>
                 <button type="submit" class="add-trip-btn">Save Trip</button>
                 <button type="button" onclick="closeTripForm()" style="margin-top:10px;">Cancel</button>
             </form>
         </div>
     </div>
 
-    <!-- Footer -->
+    <!-- Footer Section -->
     <div class="footer">
         <p>&copy; 2025 Explore the World. All Rights Reserved.</p>
     </div>
 
-    <!-- JavaScript -->
     <script>
         const userID = 'USER_123'; // Replace with dynamic user ID if using auth
         const apiUrl = 'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec'; // Replace with your script URL
 
-        function toggleSidebar() {
-            document.getElementById("sidebar").classList.toggle("active");
-        }
-
+        // Open the trip form
         function openTripForm() {
             document.getElementById('tripFormModal').style.display = 'flex';
         }
 
+        // Close the trip form
         function closeTripForm() {
             document.getElementById('tripFormModal').style.display = 'none';
             document.getElementById('tripForm').reset();
         }
 
+        // Handle trip form submission
         document.getElementById('tripForm').addEventListener('submit', async function (e) {
             e.preventDefault();
-            const title = document.getElementById('tripTitle').value;
+
+            const name = document.getElementById('tripName').value;
             const place = document.getElementById('tripPlace').value;
             const date = document.getElementById('tripDate').value;
-            const description = document.getElementById('tripDescription').value;
 
+            // Send the data to Google Sheets
             await fetch(apiUrl, {
                 method: 'POST',
-                body: JSON.stringify({ userID, title, place, date, description, action: 'saveTrip' }),
+                body: JSON.stringify({ userID, name, place, date, action: 'saveTrip' }),
                 headers: { 'Content-Type': 'application/json' }
             });
 
+            // Close the form and reload trips
             closeTripForm();
             loadTrips();
         });
 
+        // Load saved trips from Google Sheets
         async function loadTrips() {
             const res = await fetch(`${apiUrl}?userID=${userID}&action=getTrips`);
             const trips = await res.json();
@@ -115,15 +272,15 @@
                 document.getElementById('noTripsMessage').style.display = 'none';
             }
 
+            // Display each saved trip
             trips.forEach(trip => {
                 const card = document.createElement('div');
                 card.className = 'trip-card';
                 card.innerHTML = `
-                    <img src="images/default.jpg" alt="${trip.place}" class="trip-image">
                     <div class="trip-details">
-                        <h3 class="trip-title">${trip.title}</h3>
+                        <h3 class="trip-title">${trip.name}</h3>
                         <p class="trip-date">Planned for: ${trip.date}</p>
-                        <p class="trip-description">${trip.description}</p>
+                        <p class="trip-description">${trip.place}</p>
                         <div class="trip-actions">
                             <button class="action-btn delete-btn" onclick="deleteTrip('${trip.id}')">Delete</button>
                         </div>
@@ -133,6 +290,7 @@
             });
         }
 
+        // Delete a trip
         async function deleteTrip(id) {
             if (!confirm("Are you sure you want to delete this trip?")) return;
 
@@ -145,6 +303,8 @@
             loadTrips();
         }
 
+        // Load trips when the page loads
         window.onload = loadTrips;
     </script>
 </body>
+</html>
