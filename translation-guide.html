@@ -3,90 +3,158 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Travel Translator</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Translation Guide</title>
     <style>
-        :root {
-            --primary: #FFD700;
-            --secondary: #0056b3;
-            --dark: #1a1a2e;
-            --light: #f8f9fa;
-            --accent: #e94560;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
+        /* General Styling */
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
-                        url('https://images.unsplash.com/photo-1506929562872-bb421503ef21') center/cover no-repeat fixed;
-            color: var(--light);
+            margin: 0;
+            padding: 0;
+            background: url('https://images.unsplash.com/photo-1506929562872-bb421503ef21') no-repeat center center/cover;
+            background-size: cover;
+            color: white;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        header {
-            background-color: rgba(26, 26, 46, 0.9);
-            padding: 1rem 2rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
             position: relative;
         }
 
-        .back-btn {
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            background-color: var(--primary);
-            color: var(--dark);
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+        /* Background Tint */
+        .background-tint {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1;
         }
 
-        .back-btn:hover {
-            background-color: #ffcc00;
-            transform: translateY(-50%) scale(1.05);
+        /* Header & Navigation Bar */
+        #header {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .container {
+            width: 85%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+        }
+
+        nav ul li {
+            margin-right: 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2em;
+            transition: 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #ffdd57;
+        }
+
+        /* Profile Button */
+        .profile-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .profile-button {
+            background: #ffdd57;
+            color: black;
+            border: none;
+            padding: 10px 15px;
+            font-size: 1em;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background: white;
+            color: black;
+            min-width: 120px;
+            right: 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            overflow: hidden;
+            z-index: 1000;
+        }
+
+        .dropdown-content a {
+            padding: 10px;
+            display: block;
+            color: black;
+            text-decoration: none;
+        }
+
+        .dropdown-content a:hover {
+            background: #f1f1f1;
+        }
+
+        .profile-dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Language Selector */
+        .language-selector {
+            background: black;
+            color: white;
+            border: none;
+            padding: 8px;
+            font-size: 1em;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Main Content */
+        .main-content {
+            position: relative;
+            z-index: 2;
+            padding: 100px 20px 50px;
             max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-            flex: 1;
+            margin: 0 auto;
         }
 
         .translator-card {
-            background-color: rgba(26, 26, 46, 0.85);
-            border-radius: 15px;
-            padding: 2rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(5px);
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
         }
 
         h1 {
-            color: var(--primary);
+            color: #ffdd57;
             text-align: center;
-            margin-bottom: 1.5rem;
-            font-size: 2.5rem;
+            margin-bottom: 30px;
+            font-size: 2.5em;
         }
 
         .translator-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
+            gap: 20px;
+            margin-bottom: 20px;
         }
 
         @media (max-width: 768px) {
@@ -104,128 +172,222 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1rem;
+            margin-bottom: 15px;
         }
 
         label {
-            color: var(--primary);
+            color: #ffdd57;
             font-weight: 500;
-            font-size: 1.1rem;
+            font-size: 1.1em;
         }
 
         select {
-            padding: 0.5rem 1rem;
+            padding: 8px 15px;
             border-radius: 5px;
-            background-color: rgba(255, 255, 255, 0.1);
-            color: var(--light);
-            border: 1px solid var(--primary);
-            font-size: 1rem;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: 1px solid #ffdd57;
+            font-size: 1em;
             cursor: pointer;
         }
 
         textarea {
             width: 100%;
             min-height: 200px;
-            padding: 1rem;
+            padding: 15px;
             border-radius: 8px;
             background-color: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            color: var(--light);
-            font-size: 1rem;
+            color: white;
+            font-size: 1em;
             resize: none;
-            transition: all 0.3s;
         }
 
         textarea:focus {
             outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.3);
+            border-color: #ffdd57;
         }
 
         .controls {
             display: flex;
             justify-content: center;
-            gap: 1rem;
-            margin-top: 1.5rem;
+            gap: 15px;
+            margin-top: 20px;
         }
 
         button {
-            padding: 0.8rem 2rem;
-            border-radius: 50px;
+            padding: 12px 25px;
+            border-radius: 30px;
             border: none;
-            font-size: 1rem;
+            font-size: 1em;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: 0.3s;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 8px;
         }
 
         .translate-btn {
-            background-color: var(--primary);
-            color: var(--dark);
+            background: #ffdd57;
+            color: #333;
         }
 
         .translate-btn:hover {
-            background-color: #ffcc00;
+            background: #ffc107;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
         }
 
         .swap-btn {
-            background-color: transparent;
-            color: var(--primary);
-            border: 2px solid var(--primary);
+            background: transparent;
+            color: #ffdd57;
+            border: 2px solid #ffdd57;
         }
 
         .swap-btn:hover {
-            background-color: rgba(255, 215, 0, 0.1);
+            background: rgba(255, 221, 87, 0.1);
             transform: translateY(-2px);
         }
 
         .status {
             text-align: center;
-            margin-top: 1rem;
-            color: var(--primary);
+            margin-top: 15px;
+            color: #ffdd57;
             font-style: italic;
-            min-height: 1.5rem;
-        }
-
-        footer {
-            text-align: center;
-            padding: 1rem;
-            background-color: rgba(26, 26, 46, 0.9);
-            margin-top: auto;
+            min-height: 20px;
         }
 
         .char-count {
             text-align: right;
-            font-size: 0.8rem;
+            font-size: 0.9em;
             color: rgba(255, 255, 255, 0.6);
-            margin-top: 0.5rem;
+            margin-top: 5px;
+        }
+
+        /* Sidebar Styling */
+        #sidebar {
+            width: 250px;
+            background-color: rgba(0, 0, 0, 0.8);
+            position: fixed;
+            top: 0;
+            left: -250px;
+            height: 100%;
+            transition: left 0.3s ease;
+            z-index: 1100;
+        }
+
+        #sidebar.active {
+            left: 0;
+        }
+
+        #sidebar ul {
+            list-style-type: none;
+            padding: 20px;
+            margin: 0;
+        }
+
+        #sidebar ul li {
+            padding: 15px;
+            border-bottom: 1px solid #333;
+        }
+
+        #sidebar ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2em;
+            transition: 0.3s;
+        }
+
+        #sidebar ul li a:hover {
+            color: #ffdd57;
+        }
+
+        /* Sidebar Toggle Button */
+        .sidebar-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            font-size: 30px;
+            cursor: pointer;
+            color: white;
+            z-index: 1200;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 15px;
+            background-color: rgba(0, 0, 0, 0.7);
+            position: relative;
+            z-index: 2;
         }
     </style>
 </head>
 <body>
-    <header>
-        <button class="back-btn" onclick="window.location.href='/'">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
-            </svg>
-            Home
-        </button>
-        <h1>Travel Translation Guide</h1>
-    </header>
+    <!-- Background Tint -->
+    <div class="background-tint"></div>
 
-    <div class="container">
+    <!-- Header Section -->
+    <div id="header">
+        <div class="container">
+            <nav>
+                <ul>
+                    <li><a href="home" data-key="nav-home">Home</a></li>
+                    <li><a href="map" data-key="nav-destinations">Destinations</a></li>
+                    <li><a href="community" data-key="nav-community">Community</a></li>
+                    <li><a href="gallery">Gallery</a></li>
+                    <li><a href="previousd">Previous Destinations</a></li>
+                </ul>
+            </nav>
+
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <!-- Username Display -->
+                <div id="usernameDisplay" style="font-size: 1.1em; font-weight: bold;"></div>
+
+                <!-- Language Selector -->
+                <select class="language-selector" onchange="changeLanguage(this.value)">
+                    <option value="en">🇺🇸 English</option>
+                    <option value="es">🇪🇸 Español</option>
+                    <option value="fr">🇫🇷 Français</option>
+                </select>
+
+                <!-- Profile Button -->
+                <div class="profile-dropdown">
+                    <button class="profile-button" onclick="window.location.href='profile.html'">
+                        Profile
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar Menu -->
+    <div id="sidebar">
+        <ul>
+            <li><a href="friends.html" data-key="friends">Friends</a></li>
+            <li><a href="travel.html" data-key="travel-guide">Travel Guide</a></li>
+            <li><a href="translation-guide.html" data-key="translation-guide">Translation Guide</a></li>
+            <li><a href="achievements.html" data-key="Achievements">Achievements</a></li>
+            <li><a href="about.html" data-key="about">About</a></li>
+            <li><a href="contact.html" data-key="contact-us">Contact Us</a></li>
+            <li><a href="savedtrips.html" data-key="saved">Saved Trips</a></li>
+        </ul>
+    </div>
+
+    <!-- Sidebar Toggle Button -->
+    <div class="sidebar-toggle" onclick="toggleSidebar()">☰</div>
+
+    <!-- Main Content -->
+    <div class="main-content">
         <div class="translator-card">
+            <h1 data-key="translation-title">Travel Translation Guide</h1>
+            
             <div class="translator-container">
                 <div class="text-box">
                     <div class="text-header">
-                        <label for="source-language">From Language</label>
+                        <label for="source-language" data-key="from-language">From Language</label>
                         <select id="source-language">
-                            <option value="auto">Detect Language</option>
+                            <option value="auto" data-key="detect-language">Detect Language</option>
                             <option value="en">English</option>
                             <option value="es">Spanish</option>
                             <option value="fr">French</option>
@@ -237,13 +399,13 @@
                             <option value="ja">Japanese</option>
                         </select>
                     </div>
-                    <textarea id="source-text" placeholder="Enter text to translate..."></textarea>
+                    <textarea id="source-text" placeholder="Enter text to translate..." data-key="enter-text"></textarea>
                     <div class="char-count"><span id="source-count">0</span>/500</div>
                 </div>
                 
                 <div class="text-box">
                     <div class="text-header">
-                        <label for="target-language">To Language</label>
+                        <label for="target-language" data-key="to-language">To Language</label>
                         <select id="target-language">
                             <option value="es">Spanish</option>
                             <option value="en">English</option>
@@ -256,7 +418,7 @@
                             <option value="ja">Japanese</option>
                         </select>
                     </div>
-                    <textarea id="translated-text" placeholder="Translation will appear here" readonly></textarea>
+                    <textarea id="translated-text" placeholder="Translation will appear here" data-key="translation-placeholder" readonly></textarea>
                     <div class="char-count"><span id="translated-count">0</span>/500</div>
                 </div>
             </div>
@@ -267,13 +429,13 @@
                         <path d="M4.545 6.714 4.11 8H3l1.862-5h1.284L8 8H6.833l-.435-1.286H4.545zm1.634-.736L5.5 3.956h-.049l-.679 2.022H6.18z"/>
                         <path d="M0 2a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v3h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-3H2a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H2zm7.138 9.995c.193.301.402.583.63.846-.748.575-1.673 1.001-2.768 1.292.178.217.451.635.555.867 1.125-.359 2.08-.844 2.886-1.494.777.665 1.739 1.165 2.93 1.472.133-.254.414-.673.629-.89-1.125-.253-2.057-.694-2.82-1.284.681-.747 1.222-1.651 1.621-2.757H14V8h-3v1.047h.765c-.318.844-.74 1.546-1.272 2.13a6.066 6.066 0 0 1-.415-.492 1.988 1.988 0 0 1-.94.31z"/>
                     </svg>
-                    Translate
+                    <span data-key="translate-button">Translate</span>
                 </button>
                 <button id="swap-btn" class="swap-btn">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                         <path fill-rule="evenodd" d="M11 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM6.025 7.5a5 5 0 1 1 0 1H4A1.5 1.5 0 0 1 2.5 10h-1A1.5 1.5 0 0 1 0 8.5v-1A1.5 1.5 0 0 1 1.5 6h1A1.5 1.5 0 0 1 4 7.5h2.025zM11 5a.5.5 0 0 1 .5.5v2h2a.5.5 0 0 1 0 1h-2v2a.5.5 0 0 1-1 0v-2h-2a.5.5 0 0 1 0-1h2v-2A.5.5 0 0 1 11 5zM1.5 7a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1z"/>
                     </svg>
-                    Swap
+                    <span data-key="swap-button">Swap</span>
                 </button>
             </div>
             
@@ -300,116 +462,4 @@
         // Language names for display
         const languageNames = {
             'auto': 'Detected Language',
-            'en': 'English',
-            'es': 'Spanish',
-            'fr': 'French',
-            'de': 'German',
-            'it': 'Italian',
-            'pt': 'Portuguese',
-            'ru': 'Russian',
-            'zh': 'Chinese',
-            'ja': 'Japanese'
-        };
-
-        // Character count update
-        function updateCharCount() {
-            const count = sourceText.value.length;
-            sourceCount.textContent = count;
-            
-            if (count > 500) {
-                sourceCount.style.color = 'var(--accent)';
-            } else {
-                sourceCount.style.color = 'rgba(255, 255, 255, 0.6)';
-            }
-            
-            translatedCount.textContent = translatedText.value.length;
-        }
-
-        // Translation function using MyMemory API
-        async function translateText() {
-            const text = sourceText.value.trim();
-            const sourceLang = sourceLanguage.value;
-            const targetLang = targetLanguage.value;
-            
-            if (!text) {
-                translatedText.value = '';
-                statusElement.textContent = '';
-                return;
-            }
-            
-            if (text.length > 500) {
-                statusElement.textContent = 'Please keep text under 500 characters for free API';
-                return;
-            }
-            
-            statusElement.textContent = 'Translating...';
-            translatedText.value = 'Translating...';
-            
-            try {
-                // Using MyMemory API
-                const response = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${sourceLang === 'auto' ? '' : sourceLang}|${targetLang}`);
-                
-                if (!response.ok) {
-                    throw new Error(`API Error: ${response.status}`);
-                }
-                
-                const data = await response.json();
-                
-                if (data.responseStatus !== 200 || !data.responseData) {
-                    throw new Error(data.responseDetails || 'Translation failed');
-                }
-                
-                translatedText.value = data.responseData.translatedText;
-                
-                // Update status with detected language if auto was selected
-                let detectedLang = '';
-                if (sourceLang === 'auto' && data.responseData.match) {
-                    const match = data.responseData.match;
-                    detectedLang = match > 0.7 ? ` (Detected with ${Math.round(match * 100)}% confidence)` : '';
-                }
-                
-                statusElement.textContent = `Translated from ${languageNames[sourceLang]}${detectedLang} to ${languageNames[targetLang]}`;
-                updateCharCount();
-                
-            } catch (error) {
-                console.error('Translation error:', error);
-                statusElement.textContent = 'Translation failed. Please try again later.';
-                translatedText.value = 'Translation unavailable';
-            }
-        }
-
-        // Swap languages function
-        function swapLanguages() {
-            // Don't swap if source is auto-detect
-            if (sourceLanguage.value === 'auto') return;
-            
-            const tempLang = sourceLanguage.value;
-            sourceLanguage.value = targetLanguage.value;
-            targetLanguage.value = tempLang;
-            
-            const tempText = sourceText.value;
-            sourceText.value = translatedText.value;
-            translatedText.value = tempText;
-            
-            updateCharCount();
-        }
-
-      
-        translateBtn.addEventListener('click', translateText);
-        swapBtn.addEventListener('click', swapLanguages);
-        
-     
-        let debounceTimer;
-        sourceText.addEventListener('input', () => {
-            updateCharCount();
-            clearTimeout(debounceTimer);
-            debounceTimer = setTimeout(translateText, 1500);
-        });
-
- 
-        document.addEventListener('DOMContentLoaded', () => {
-            updateCharCount();
-        });
-    </script>
-</body>
-</html>
+           
