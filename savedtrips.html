@@ -277,97 +277,78 @@
     </div>
 
     <script>
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('active');
-        }
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('active');
+    }
 
-        function getCookie(name) {
-            let cookieArr = document.cookie.split("; ");
-            for (let i = 0; i < cookieArr.length; i++) {
-                let cookiePair = cookieArr[i].split("=");
-                if (name === cookiePair[0]) {
-                    return decodeURIComponent(cookiePair[1]);
-                }
-            }
-            return null;
-        }
+    function openTripForm() {
+        document.getElementById('tripFormModal').style.display = 'flex';
+    }
 
-        const userID = getCookie("userID");
-        const apiUrl = 'https://script.google.com/macros/s/AKfycbxFh99fguNCPj-epEdVwg2SfQRw65AUNHaf1Eg078kmcVjUx0E1j4i4maIzpogEqH3g/exec';
+    function closeTripForm() {
+        document.getElementById('tripFormModal').style.display = 'none';
+        document.getElementById('tripForm').reset();
+    }
 
-        function openTripForm() {
-            document.getElementById('tripFormModal').style.display = 'flex';
-        }
+    function getTrips() {
+        const stored = localStorage.getItem('savedTrips');
+        return stored ? JSON.parse(stored) : [];
+    }
 
-        function closeTripForm() {
-            document.getElementById('tripFormModal').style.display = 'none';
-            document.getElementById('tripForm').reset();
-        }
+    function saveTrips(trips) {
+        localStorage.setItem('savedTrips', JSON.stringify(trips));
+    }
 
-        document.getElementById('tripForm').addEventListener('submit', async function (e) {
-            e.preventDefault();
-            const name = document.getElementById('tripName').value;
-            const place = document.getElementById('tripPlace').value;
-            const date = document.getElementById('tripDate').value;
+    function loadTrips() {
+        const trips = getTrips();
+        const container = document.getElementById('tripsContainer');
+        container.innerHTML = '';
 
-            if (!name || !place || !date) {
-                alert("Please fill in all fields.");
-                return;
-            }
+        const msg = document.getElementById('noTripsMessage');
+        msg.style.display = trips.length === 0 ? 'block' : 'none';
 
-            await fetch(apiUrl, {
-                method: 'POST',
-                body: JSON.stringify({ userID, name, place, date, action: 'saveTrip' }),
-                headers: { 'Content-Type': 'application/json' }
-            });
-
-            closeTripForm();
-            loadTrips();
+        trips.forEach((trip, index) => {
+            const card = document.createElement('div');
+            card.className = 'trip-card';
+            card.innerHTML = `
+                <h3 class="trip-title">${trip.name}</h3>
+                <p class="trip-date"><strong>Date:</strong> ${trip.date}</p>
+                <p class="trip-description"><strong>Place:</strong> ${trip.place}</p>
+                <div class="trip-actions">
+                    <button class="action-btn" onclick="deleteTrip(${index})">Delete</button>
+                </div>
+            `;
+            container.appendChild(card);
         });
+    }
 
-        async function loadTrips() {
-            const res = await fetch(`${apiUrl}?userID=${userID}&action=getTrips`);
-            const trips = await res.json();
+    function deleteTrip(index) {
+        const trips = getTrips();
+        trips.splice(index, 1);
+        saveTrips(trips);
+        loadTrips();
+    }
 
-            const container = document.getElementById('tripsContainer');
-            container.innerHTML = '';
+    document.getElementById('tripForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const name = document.getElementById('tripName').value.trim();
+        const place = document.getElementById('tripPlace').value.trim();
+        const date = document.getElementById('tripDate').value;
 
-            if (trips.length === 0) {
-                document.getElementById('noTripsMessage').style.display = 'block';
-                return;
-            } else {
-                document.getElementById('noTripsMessage').style.display = 'none';
-            }
-
-            trips.forEach(trip => {
-                const card = document.createElement('div');
-                card.className = 'trip-card';
-                card.innerHTML = `
-                    <h3 class="trip-title">${trip.name}</h3>
-                    <p class="trip-date">Planned for: ${trip.date}</p>
-                    <p class="trip-description">${trip.place}</p>
-                    <div class="trip-actions">
-                        <button class="action-btn" onclick="deleteTrip('${trip.id}')">Delete</button>
-                    </div>
-                `;
-                container.appendChild(card);
-            });
+        if (!name || !place || !date) {
+            alert("Please fill in all fields.");
+            return;
         }
 
-        async function deleteTrip(id) {
-            if (!confirm("Are you sure you want to delete this trip?")) return;
+        const trips = getTrips();
+        trips.push({ name, place, date });
+        saveTrips(trips);
+        closeTripForm();
+        loadTrips();
+    });
 
-            await fetch(apiUrl, {
-                method: 'POST',
-                body: JSON.stringify({ userID, id, action: 'deleteTrip' }),
-                headers: { 'Content-Type': 'application/json' }
-            });
-
-            loadTrips();
-        }
-
-        window.onload = loadTrips;
-    </script>
+    window.onload = loadTrips;
+</script>
 </body>
 </html>
